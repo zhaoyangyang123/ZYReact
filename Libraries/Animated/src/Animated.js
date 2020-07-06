@@ -11,38 +11,37 @@
 'use strict';
 
 import Platform from '../../Utilities/Platform';
-import typeof AnimatedFlatList from './components/AnimatedFlatList';
-import typeof AnimatedImage from './components/AnimatedImage';
-import typeof AnimatedScrollView from './components/AnimatedScrollView';
-import typeof AnimatedSectionList from './components/AnimatedSectionList';
-import typeof AnimatedText from './components/AnimatedText';
-import typeof AnimatedView from './components/AnimatedView';
+const View = require('../../Components/View/View');
+const React = require('react');
+import type {AnimatedComponentType} from './createAnimatedComponent';
 
 const AnimatedMock = require('./AnimatedMock');
 const AnimatedImplementation = require('./AnimatedImplementation');
 
-const Animated = ((Platform.isTesting ||
-(Platform.OS === 'android' && global.RN$Bridgeless)
+const Animated = ((Platform.isTesting
   ? AnimatedMock
   : AnimatedImplementation): typeof AnimatedMock);
 
 module.exports = {
-  get FlatList(): AnimatedFlatList {
+  get FlatList(): any {
     return require('./components/AnimatedFlatList');
   },
-  get Image(): AnimatedImage {
+  get Image(): any {
     return require('./components/AnimatedImage');
   },
-  get ScrollView(): AnimatedScrollView {
+  get ScrollView(): any {
     return require('./components/AnimatedScrollView');
   },
-  get SectionList(): AnimatedSectionList {
+  get SectionList(): any {
     return require('./components/AnimatedSectionList');
   },
-  get Text(): AnimatedText {
+  get Text(): any {
     return require('./components/AnimatedText');
   },
-  get View(): AnimatedView {
+  get View(): AnimatedComponentType<
+    React.ElementConfig<typeof View>,
+    React.ElementRef<typeof View>,
+  > {
     return require('./components/AnimatedView');
   },
   ...Animated,

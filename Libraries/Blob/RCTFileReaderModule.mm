@@ -71,9 +71,10 @@ RCT_EXPORT_METHOD(readAsDataURL:(NSDictionary<NSString *, id> *)blob
   }
 }
 
-- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModuleWithJsInvoker:
+  (std::shared_ptr<facebook::react::CallInvoker>)jsInvoker
 {
-  return std::make_shared<facebook::react::NativeFileReaderModuleSpecJSI>(params);
+  return std::make_shared<facebook::react::NativeFileReaderModuleSpecJSI>(self, jsInvoker);
 }
 
 @end

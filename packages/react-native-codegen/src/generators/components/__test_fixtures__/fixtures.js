@@ -409,7 +409,7 @@ const COLOR_PROP: SchemaType = {
               name: 'tintColor',
               optional: true,
               typeAnnotation: {
-                type: 'ReservedPropTypeAnnotation',
+                type: 'NativePrimitiveTypeAnnotation',
                 name: 'ColorPrimitive',
               },
             },
@@ -438,7 +438,7 @@ const IMAGE_PROP: SchemaType = {
               name: 'thumbImage',
               optional: true,
               typeAnnotation: {
-                type: 'ReservedPropTypeAnnotation',
+                type: 'NativePrimitiveTypeAnnotation',
                 name: 'ImageSourcePrimitive',
               },
             },
@@ -467,7 +467,7 @@ const POINT_PROP: SchemaType = {
               name: 'startPoint',
               optional: true,
               typeAnnotation: {
-                type: 'ReservedPropTypeAnnotation',
+                type: 'NativePrimitiveTypeAnnotation',
                 name: 'PointPrimitive',
               },
             },
@@ -496,7 +496,7 @@ const INSETS_PROP: SchemaType = {
               name: 'contentInset',
               optional: true,
               typeAnnotation: {
-                type: 'ReservedPropTypeAnnotation',
+                type: 'NativePrimitiveTypeAnnotation',
                 name: 'EdgeInsetsPrimitive',
               },
             },
@@ -567,7 +567,7 @@ const ARRAY_PROPS: SchemaType = {
               typeAnnotation: {
                 type: 'ArrayTypeAnnotation',
                 elementType: {
-                  type: 'ReservedPropTypeAnnotation',
+                  type: 'NativePrimitiveTypeAnnotation',
                   name: 'ColorPrimitive',
                 },
               },
@@ -578,7 +578,7 @@ const ARRAY_PROPS: SchemaType = {
               typeAnnotation: {
                 type: 'ArrayTypeAnnotation',
                 elementType: {
-                  type: 'ReservedPropTypeAnnotation',
+                  type: 'NativePrimitiveTypeAnnotation',
                   name: 'ImageSourcePrimitive',
                 },
               },
@@ -589,7 +589,7 @@ const ARRAY_PROPS: SchemaType = {
               typeAnnotation: {
                 type: 'ArrayTypeAnnotation',
                 elementType: {
-                  type: 'ReservedPropTypeAnnotation',
+                  type: 'NativePrimitiveTypeAnnotation',
                   name: 'PointPrimitive',
                 },
               },
@@ -726,7 +726,7 @@ const ARRAY_PROPS_WITH_NESTED_OBJECT: SchemaType = {
                       typeAnnotation: {
                         type: 'ArrayTypeAnnotation',
                         elementType: {
-                          type: 'ReservedPropTypeAnnotation',
+                          type: 'NativePrimitiveTypeAnnotation',
                           name: 'ColorPrimitive',
                         },
                       },
@@ -737,7 +737,7 @@ const ARRAY_PROPS_WITH_NESTED_OBJECT: SchemaType = {
                       typeAnnotation: {
                         type: 'ArrayTypeAnnotation',
                         elementType: {
-                          type: 'ReservedPropTypeAnnotation',
+                          type: 'NativePrimitiveTypeAnnotation',
                           name: 'ImageSourcePrimitive',
                         },
                       },
@@ -748,7 +748,7 @@ const ARRAY_PROPS_WITH_NESTED_OBJECT: SchemaType = {
                       typeAnnotation: {
                         type: 'ArrayTypeAnnotation',
                         elementType: {
-                          type: 'ReservedPropTypeAnnotation',
+                          type: 'NativePrimitiveTypeAnnotation',
                           name: 'PointPrimitive',
                         },
                       },
@@ -871,7 +871,7 @@ const OBJECT_PROPS: SchemaType = {
                           name: 'image',
                           optional: true,
                           typeAnnotation: {
-                            type: 'ReservedPropTypeAnnotation',
+                            type: 'NativePrimitiveTypeAnnotation',
                             name: 'ImageSourcePrimitive',
                           },
                         },
@@ -879,7 +879,7 @@ const OBJECT_PROPS: SchemaType = {
                           name: 'color',
                           optional: true,
                           typeAnnotation: {
-                            type: 'ReservedPropTypeAnnotation',
+                            type: 'NativePrimitiveTypeAnnotation',
                             name: 'ColorPrimitive',
                           },
                         },
@@ -887,7 +887,7 @@ const OBJECT_PROPS: SchemaType = {
                           name: 'point',
                           optional: true,
                           typeAnnotation: {
-                            type: 'ReservedPropTypeAnnotation',
+                            type: 'NativePrimitiveTypeAnnotation',
                             name: 'PointPrimitive',
                           },
                         },
@@ -977,7 +977,7 @@ const MULTI_NATIVE_PROP: SchemaType = {
               name: 'thumbImage',
               optional: true,
               typeAnnotation: {
-                type: 'ReservedPropTypeAnnotation',
+                type: 'NativePrimitiveTypeAnnotation',
                 name: 'ImageSourcePrimitive',
               },
             },
@@ -985,7 +985,7 @@ const MULTI_NATIVE_PROP: SchemaType = {
               name: 'color',
               optional: true,
               typeAnnotation: {
-                type: 'ReservedPropTypeAnnotation',
+                type: 'NativePrimitiveTypeAnnotation',
                 name: 'ColorPrimitive',
               },
             },
@@ -993,7 +993,7 @@ const MULTI_NATIVE_PROP: SchemaType = {
               name: 'thumbTintColor',
               optional: true,
               typeAnnotation: {
-                type: 'ReservedPropTypeAnnotation',
+                type: 'NativePrimitiveTypeAnnotation',
                 name: 'ColorPrimitive',
               },
             },
@@ -1001,7 +1001,7 @@ const MULTI_NATIVE_PROP: SchemaType = {
               name: 'point',
               optional: true,
               typeAnnotation: {
-                type: 'ReservedPropTypeAnnotation',
+                type: 'NativePrimitiveTypeAnnotation',
                 name: 'PointPrimitive',
               },
             },
@@ -1476,22 +1476,6 @@ const COMMANDS_AND_PROPS: SchemaType = {
           ],
           commands: [
             {
-              name: 'handleRootTag',
-              optional: false,
-              typeAnnotation: {
-                type: 'FunctionTypeAnnotation',
-                params: [
-                  {
-                    name: 'rootTag',
-                    typeAnnotation: {
-                      type: 'ReservedFunctionValueTypeAnnotation',
-                      name: 'RootTag',
-                    },
-                  },
-                ],
-              },
-            },
-            {
               name: 'hotspotUpdate',
               optional: false,
               typeAnnotation: {
@@ -1524,28 +1508,7 @@ const EXCLUDE_ANDROID: SchemaType = {
     ExcludedAndroid: {
       components: {
         ExcludedAndroidComponent: {
-          excludedPlatforms: ['android'],
-          extendsProps: [
-            {
-              type: 'ReactNativeBuiltInType',
-              knownTypeName: 'ReactNativeCoreViewProps',
-            },
-          ],
-          events: [],
-          props: [],
-          commands: [],
-        },
-      },
-    },
-  },
-};
-
-const EXCLUDE_ANDROID_IOS: SchemaType = {
-  modules: {
-    ExcludedAndroidIos: {
-      components: {
-        ExcludedAndroidIosComponent: {
-          excludedPlatforms: ['android', 'iOS'],
+          excludedPlatform: 'android',
           extendsProps: [
             {
               type: 'ReactNativeBuiltInType',
@@ -1587,5 +1550,4 @@ module.exports = {
   COMMANDS,
   COMMANDS_AND_PROPS,
   EXCLUDE_ANDROID,
-  EXCLUDE_ANDROID_IOS,
 };

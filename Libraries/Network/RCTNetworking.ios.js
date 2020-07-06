@@ -10,10 +10,12 @@
 
 'use strict';
 
-import NativeEventEmitter from '../EventEmitter/NativeEventEmitter';
+const NativeEventEmitter = require('../EventEmitter/NativeEventEmitter');
+
+const convertRequestBody = require('./convertRequestBody');
+
 import NativeNetworkingIOS from './NativeNetworkingIOS';
 import type {NativeResponseType} from './XMLHttpRequest';
-import convertRequestBody from './convertRequestBody';
 import type {RequestBody} from './convertRequestBody';
 
 class RCTNetworking extends NativeEventEmitter {

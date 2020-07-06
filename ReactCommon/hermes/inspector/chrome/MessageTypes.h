@@ -1,5 +1,5 @@
 // Copyright 2004-present Facebook. All Rights Reserved.
-// @generated SignedSource<<356df52df2a053b5254f0e039cc36a7b>>
+// @generated SignedSource<<551bd6eb5c18ce9019815c7a6ad564c9>>
 
 #pragma once
 
@@ -38,8 +38,6 @@ struct SetBreakpointByUrlRequest;
 struct SetBreakpointByUrlResponse;
 struct SetBreakpointRequest;
 struct SetBreakpointResponse;
-struct SetInstrumentationBreakpointRequest;
-struct SetInstrumentationBreakpointResponse;
 struct SetPauseOnExceptionsRequest;
 struct StepIntoRequest;
 struct StepOutRequest;
@@ -55,13 +53,14 @@ struct ExceptionDetails;
 struct ExecutionContextCreatedNotification;
 struct ExecutionContextDescription;
 using ExecutionContextId = int;
+struct GetHeapUsageRequest;
+struct GetHeapUsageResponse;
 struct GetPropertiesRequest;
 struct GetPropertiesResponse;
 struct InternalPropertyDescriptor;
 struct PropertyDescriptor;
 struct RemoteObject;
 using RemoteObjectId = std::string;
-struct RunIfWaitingForDebuggerRequest;
 using ScriptId = std::string;
 struct StackTrace;
 using Timestamp = double;
@@ -71,8 +70,6 @@ using UnserializableValue = std::string;
 namespace heapProfiler {
 struct AddHeapSnapshotChunkNotification;
 struct ReportHeapSnapshotProgressNotification;
-struct StartTrackingHeapObjectsRequest;
-struct StopTrackingHeapObjectsRequest;
 struct TakeHeapSnapshotRequest;
 } // namespace heapProfiler
 
@@ -89,20 +86,14 @@ struct RequestHandler {
   virtual void handle(const debugger::ResumeRequest &req) = 0;
   virtual void handle(const debugger::SetBreakpointRequest &req) = 0;
   virtual void handle(const debugger::SetBreakpointByUrlRequest &req) = 0;
-  virtual void handle(
-      const debugger::SetInstrumentationBreakpointRequest &req) = 0;
   virtual void handle(const debugger::SetPauseOnExceptionsRequest &req) = 0;
   virtual void handle(const debugger::StepIntoRequest &req) = 0;
   virtual void handle(const debugger::StepOutRequest &req) = 0;
   virtual void handle(const debugger::StepOverRequest &req) = 0;
-  virtual void handle(
-      const heapProfiler::StartTrackingHeapObjectsRequest &req) = 0;
-  virtual void handle(
-      const heapProfiler::StopTrackingHeapObjectsRequest &req) = 0;
   virtual void handle(const heapProfiler::TakeHeapSnapshotRequest &req) = 0;
   virtual void handle(const runtime::EvaluateRequest &req) = 0;
+  virtual void handle(const runtime::GetHeapUsageRequest &req) = 0;
   virtual void handle(const runtime::GetPropertiesRequest &req) = 0;
-  virtual void handle(const runtime::RunIfWaitingForDebuggerRequest &req) = 0;
 };
 
 /// NoopRequestHandler can be subclassed to only handle some requests.
@@ -116,20 +107,14 @@ struct NoopRequestHandler : public RequestHandler {
   void handle(const debugger::ResumeRequest &req) override {}
   void handle(const debugger::SetBreakpointRequest &req) override {}
   void handle(const debugger::SetBreakpointByUrlRequest &req) override {}
-  void handle(
-      const debugger::SetInstrumentationBreakpointRequest &req) override {}
   void handle(const debugger::SetPauseOnExceptionsRequest &req) override {}
   void handle(const debugger::StepIntoRequest &req) override {}
   void handle(const debugger::StepOutRequest &req) override {}
   void handle(const debugger::StepOverRequest &req) override {}
-  void handle(
-      const heapProfiler::StartTrackingHeapObjectsRequest &req) override {}
-  void handle(
-      const heapProfiler::StopTrackingHeapObjectsRequest &req) override {}
   void handle(const heapProfiler::TakeHeapSnapshotRequest &req) override {}
   void handle(const runtime::EvaluateRequest &req) override {}
+  void handle(const runtime::GetHeapUsageRequest &req) override {}
   void handle(const runtime::GetPropertiesRequest &req) override {}
-  void handle(const runtime::RunIfWaitingForDebuggerRequest &req) override {}
 };
 
 /// Types
@@ -214,7 +199,6 @@ struct debugger::CallFrame : public Serializable {
 
   debugger::CallFrameId callFrameId{};
   std::string functionName;
-  folly::Optional<debugger::Location> functionLocation;
   debugger::Location location{};
   std::string url;
   std::vector<debugger::Scope> scopeChain;
@@ -231,6 +215,8 @@ struct runtime::ExecutionContextDescription : public Serializable {
   std::string origin;
   std::string name;
   folly::Optional<folly::dynamic> auxData;
+  folly::Optional<bool> isPageContext;
+  folly::Optional<bool> isDefault;
 };
 
 struct runtime::PropertyDescriptor : public Serializable {
@@ -299,7 +285,6 @@ struct debugger::EvaluateOnCallFrameRequest : public Request {
   folly::Optional<bool> includeCommandLineAPI;
   folly::Optional<bool> silent;
   folly::Optional<bool> returnByValue;
-  folly::Optional<bool> throwOnSideEffect;
 };
 
 struct debugger::PauseRequest : public Request {
@@ -349,19 +334,8 @@ struct debugger::SetBreakpointByUrlRequest : public Request {
   int lineNumber{};
   folly::Optional<std::string> url;
   folly::Optional<std::string> urlRegex;
-  folly::Optional<std::string> scriptHash;
   folly::Optional<int> columnNumber;
   folly::Optional<std::string> condition;
-};
-
-struct debugger::SetInstrumentationBreakpointRequest : public Request {
-  SetInstrumentationBreakpointRequest();
-  explicit SetInstrumentationBreakpointRequest(const folly::dynamic &obj);
-
-  folly::dynamic toDynamic() const override;
-  void accept(RequestHandler &handler) const override;
-
-  std::string instrumentation;
 };
 
 struct debugger::SetPauseOnExceptionsRequest : public Request {
@@ -398,27 +372,6 @@ struct debugger::StepOverRequest : public Request {
   void accept(RequestHandler &handler) const override;
 };
 
-struct heapProfiler::StartTrackingHeapObjectsRequest : public Request {
-  StartTrackingHeapObjectsRequest();
-  explicit StartTrackingHeapObjectsRequest(const folly::dynamic &obj);
-
-  folly::dynamic toDynamic() const override;
-  void accept(RequestHandler &handler) const override;
-
-  folly::Optional<bool> trackAllocations;
-};
-
-struct heapProfiler::StopTrackingHeapObjectsRequest : public Request {
-  StopTrackingHeapObjectsRequest();
-  explicit StopTrackingHeapObjectsRequest(const folly::dynamic &obj);
-
-  folly::dynamic toDynamic() const override;
-  void accept(RequestHandler &handler) const override;
-
-  folly::Optional<bool> reportProgress;
-  folly::Optional<bool> treatGlobalObjectsAsRoots;
-};
-
 struct heapProfiler::TakeHeapSnapshotRequest : public Request {
   TakeHeapSnapshotRequest();
   explicit TakeHeapSnapshotRequest(const folly::dynamic &obj);
@@ -427,7 +380,6 @@ struct heapProfiler::TakeHeapSnapshotRequest : public Request {
   void accept(RequestHandler &handler) const override;
 
   folly::Optional<bool> reportProgress;
-  folly::Optional<bool> treatGlobalObjectsAsRoots;
 };
 
 struct runtime::EvaluateRequest : public Request {
@@ -443,8 +395,15 @@ struct runtime::EvaluateRequest : public Request {
   folly::Optional<bool> silent;
   folly::Optional<runtime::ExecutionContextId> contextId;
   folly::Optional<bool> returnByValue;
-  folly::Optional<bool> userGesture;
   folly::Optional<bool> awaitPromise;
+};
+
+struct runtime::GetHeapUsageRequest : public Request {
+  GetHeapUsageRequest();
+  explicit GetHeapUsageRequest(const folly::dynamic &obj);
+
+  folly::dynamic toDynamic() const override;
+  void accept(RequestHandler &handler) const override;
 };
 
 struct runtime::GetPropertiesRequest : public Request {
@@ -456,14 +415,6 @@ struct runtime::GetPropertiesRequest : public Request {
 
   runtime::RemoteObjectId objectId{};
   folly::Optional<bool> ownProperties;
-};
-
-struct runtime::RunIfWaitingForDebuggerRequest : public Request {
-  RunIfWaitingForDebuggerRequest();
-  explicit RunIfWaitingForDebuggerRequest(const folly::dynamic &obj);
-
-  folly::dynamic toDynamic() const override;
-  void accept(RequestHandler &handler) const override;
 };
 
 /// Responses
@@ -510,14 +461,6 @@ struct debugger::SetBreakpointByUrlResponse : public Response {
   std::vector<debugger::Location> locations;
 };
 
-struct debugger::SetInstrumentationBreakpointResponse : public Response {
-  SetInstrumentationBreakpointResponse() = default;
-  explicit SetInstrumentationBreakpointResponse(const folly::dynamic &obj);
-  folly::dynamic toDynamic() const override;
-
-  debugger::BreakpointId breakpointId{};
-};
-
 struct runtime::EvaluateResponse : public Response {
   EvaluateResponse() = default;
   explicit EvaluateResponse(const folly::dynamic &obj);
@@ -525,6 +468,15 @@ struct runtime::EvaluateResponse : public Response {
 
   runtime::RemoteObject result{};
   folly::Optional<runtime::ExceptionDetails> exceptionDetails;
+};
+
+struct runtime::GetHeapUsageResponse : public Response {
+  GetHeapUsageResponse() = default;
+  explicit GetHeapUsageResponse(const folly::dynamic &obj);
+  folly::dynamic toDynamic() const override;
+
+  double usedSize{};
+  double totalSize{};
 };
 
 struct runtime::GetPropertiesResponse : public Response {
@@ -581,9 +533,6 @@ struct debugger::ScriptParsedNotification : public Notification {
   std::string hash;
   folly::Optional<folly::dynamic> executionContextAuxData;
   folly::Optional<std::string> sourceMapURL;
-  folly::Optional<bool> hasSourceURL;
-  folly::Optional<bool> isModule;
-  folly::Optional<int> length;
 };
 
 struct heapProfiler::AddHeapSnapshotChunkNotification : public Notification {

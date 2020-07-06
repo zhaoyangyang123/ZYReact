@@ -21,16 +21,6 @@
 namespace facebook {
 namespace react {
 
-namespace detail {
-
-/*
- * A custom deleter used for the deallocation of Objective-C managed objects.
- * To be used only by `wrapManagedObject`.
- */
-void wrappedManagedObjectDeleter(void *cfPointer) noexcept;
-
-}
-
 /*
  * `wrapManagedObject` and `unwrapManagedObject` are wrapper functions that
  * convert ARC-managed objects into `std::shared_ptr<void>` and vice-versa. It's
@@ -45,24 +35,22 @@ void wrappedManagedObjectDeleter(void *cfPointer) noexcept;
  * represented as multiple bumps of C++ counter, so we can have multiple
  * counters for the same object that form some kind of counters tree.
  */
-inline std::shared_ptr<void> wrapManagedObject(id object) noexcept
-{
-  return std::shared_ptr<void>((__bridge_retained void *)object, detail::wrappedManagedObjectDeleter);
+inline std::shared_ptr<void> wrapManagedObject(id object) {
+  return std::shared_ptr<void>((__bridge_retained void *)object, CFRelease);
 }
 
-inline id unwrapManagedObject(std::shared_ptr<void> const &object) noexcept
-{
+inline id unwrapManagedObject(std::shared_ptr<void> const &object) {
   return (__bridge id)object.get();
 }
 
-inline std::shared_ptr<void> wrapManagedObjectWeakly(id object) noexcept
+inline std::shared_ptr<void> wrapManagedObjectWeakly(id object)
 {
   RCTInternalGenericWeakWrapper *weakWrapper = [RCTInternalGenericWeakWrapper new];
   weakWrapper.object = object;
   return wrapManagedObject(weakWrapper);
 }
 
-inline id unwrapManagedObjectWeakly(std::shared_ptr<void> const &object) noexcept
+inline id unwrapManagedObjectWeakly(std::shared_ptr<void> const &object)
 {
   RCTInternalGenericWeakWrapper *weakWrapper = (RCTInternalGenericWeakWrapper *)unwrapManagedObject(object);
   assert(weakWrapper && "`RCTInternalGenericWeakWrapper` instance must not be `nil`.");

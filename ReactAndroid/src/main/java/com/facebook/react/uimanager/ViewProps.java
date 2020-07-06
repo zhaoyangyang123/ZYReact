@@ -62,8 +62,6 @@ public class ViewProps {
   public static final String START = "start";
   public static final String END = "end";
 
-  public static final String IS_ATTACHMENT = "isAttachment";
-
   public static final String AUTO = "auto";
   public static final String NONE = "none";
   public static final String BOX_NONE = "box-none";
@@ -97,7 +95,6 @@ public class ViewProps {
   public static final String ON = "on";
   public static final String RESIZE_MODE = "resizeMode";
   public static final String RESIZE_METHOD = "resizeMethod";
-  public static final String LAYOUT_DIRECTION = "layoutDirection";
   public static final String TEXT_ALIGN = "textAlign";
   public static final String TEXT_ALIGN_VERTICAL = "textAlignVertical";
   public static final String TEXT_DECORATION_LINE = "textDecorationLine";

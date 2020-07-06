@@ -30,13 +30,6 @@ class AndroidTextInputShadowNode : public ConcreteViewShadowNode<
                                        AndroidTextInputEventEmitter,
                                        AndroidTextInputState> {
  public:
-  static ShadowNodeTraits BaseTraits() {
-    auto traits = ConcreteViewShadowNode::BaseTraits();
-    traits.set(ShadowNodeTraits::Trait::TextKind);
-    traits.set(ShadowNodeTraits::Trait::LeafYogaNode);
-    return traits;
-  }
-
   using ConcreteViewShadowNode::ConcreteViewShadowNode;
 
   void setContextContainer(ContextContainer *contextContainer);
@@ -56,18 +49,11 @@ class AndroidTextInputShadowNode : public ConcreteViewShadowNode<
 
 #pragma mark - LayoutableShadowNode
 
-  Size measureContent(
-      LayoutContext const &layoutContext,
-      LayoutConstraints const &layoutConstraints) const override;
+  Size measure(LayoutConstraints layoutConstraints) const override;
   void layout(LayoutContext layoutContext) override;
 
  private:
   ContextContainer *contextContainer_{};
-
-  /**
-   * Get the most up-to-date attributed string for measurement and State.
-   */
-  AttributedString getMostRecentAttributedString() const;
 
   /*
    * Creates a `State` object (with `AttributedText` and

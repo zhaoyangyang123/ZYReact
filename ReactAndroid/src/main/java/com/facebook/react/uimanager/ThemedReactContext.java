@@ -68,13 +68,4 @@ public class ThemedReactContext extends ReactContext {
   public @Nullable String getSurfaceID() {
     return mSurfaceID;
   }
-
-  public ReactApplicationContext getReactApplicationContext() {
-    return mReactApplicationContext;
-  }
-
-  @Override
-  public boolean isBridgeless() {
-    return mReactApplicationContext.isBridgeless();
-  }
 }

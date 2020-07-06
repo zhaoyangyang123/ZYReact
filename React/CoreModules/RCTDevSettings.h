@@ -37,7 +37,7 @@
 @property (nonatomic, readonly) BOOL isHotLoadingAvailable;
 @property (nonatomic, readonly) BOOL isLiveReloadAvailable;
 @property (nonatomic, readonly) BOOL isRemoteDebuggingAvailable;
-@property (nonatomic, readonly) BOOL isDeviceDebuggingAvailable;
+@property (nonatomic, readonly) BOOL isNuclideDebuggingAvailable;
 @property (nonatomic, readonly) BOOL isJSCSamplingProfilerAvailable;
 
 /**
@@ -62,6 +62,11 @@
 @property (nonatomic, assign, setter=setHotLoadingEnabled:) BOOL isHotLoadingEnabled;
 
 /**
+ * Toggle the element inspector.
+ */
+- (void)toggleElementInspector;
+
+/**
  * Enables starting of profiling sampler on launch
  */
 @property (nonatomic, assign) BOOL startSamplingProfilerOnLaunch;
@@ -75,21 +80,6 @@
  * Whether the performance monitor is visible.
  */
 @property (nonatomic, assign) BOOL isPerfMonitorShown;
-
-/**
- * Toggle the element inspector.
- */
-- (void)toggleElementInspector;
-
-/**
- * Set up the HMRClient if loading the bundle from Metro.
- */
-- (void)setupHMRClientWithBundleURL:(NSURL *)bundleURL;
-
-/**
- * Register additional bundles with the HMRClient.
- */
-- (void)setupHMRClientWithAdditionalBundleURL:(NSURL *)bundleURL;
 
 #if RCT_DEV_MENU
 - (void)addHandler:(id<RCTPackagerClientMethod>)handler

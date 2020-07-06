@@ -9,7 +9,6 @@
 
 #include "ParagraphShadowNode.h"
 
-#include <react/components/view/ViewPropsInterpolation.h>
 #include <react/config/ReactNativeConfig.h>
 #include <react/core/ConcreteComponentDescriptor.h>
 #include <react/textlayoutmanager/TextLayoutManager.h>
@@ -24,24 +23,18 @@ namespace react {
 class ParagraphComponentDescriptor final
     : public ConcreteComponentDescriptor<ParagraphShadowNode> {
  public:
-  ParagraphComponentDescriptor(ComponentDescriptorParameters const &parameters)
-      : ConcreteComponentDescriptor<ParagraphShadowNode>(parameters) {
+  ParagraphComponentDescriptor(
+      EventDispatcher::Weak eventDispatcher,
+      ContextContainer::Shared const &contextContainer,
+      ComponentDescriptor::Flavor const &flavor = {})
+      : ConcreteComponentDescriptor<ParagraphShadowNode>(
+            eventDispatcher,
+            contextContainer,
+            flavor) {
     // Every single `ParagraphShadowNode` will have a reference to
     // a shared `TextLayoutManager`.
-    textLayoutManager_ = std::make_shared<TextLayoutManager>(contextContainer_);
+    textLayoutManager_ = std::make_shared<TextLayoutManager>(contextContainer);
   }
-
-  virtual SharedProps interpolateProps(
-      float animationProgress,
-      const SharedProps &props,
-      const SharedProps &newProps) const override {
-    SharedProps interpolatedPropsShared = cloneProps(newProps, {});
-
-    interpolateViewProps(
-        animationProgress, props, newProps, interpolatedPropsShared);
-
-    return interpolatedPropsShared;
-  };
 
  protected:
   void adopt(UnsharedShadowNode shadowNode) const override {

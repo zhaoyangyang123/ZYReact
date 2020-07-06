@@ -7,6 +7,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RCTLogBox : NSObject
+#import <React/RCTBridge.h>
+#import <React/RCTBridgeModule.h>
+#import <React/RCTErrorCustomizer.h>
+
+@class RCTJSStackFrame;
+
+@interface RCTLogBox : NSObject <RCTBridgeModule>
+
+- (void)show;
+- (void)hide;
 
 @end

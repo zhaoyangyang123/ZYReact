@@ -11,12 +11,12 @@
 
 'use strict';
 
-const NativeModules = require('../../../BatchedBridge/NativeModules');
-const LayoutAnimation = require('../../../LayoutAnimation/LayoutAnimation');
-const dismissKeyboard = require('../../../Utilities/dismissKeyboard');
 const Keyboard = require('../Keyboard');
+const dismissKeyboard = require('../../../Utilities/dismissKeyboard');
+const LayoutAnimation = require('../../../LayoutAnimation/LayoutAnimation');
 
-import NativeEventEmitter from '../../../EventEmitter/NativeEventEmitter';
+const NativeEventEmitter = require('../../../EventEmitter/NativeEventEmitter');
+const NativeModules = require('../../../BatchedBridge/NativeModules');
 
 jest.mock('../../../LayoutAnimation/LayoutAnimation');
 

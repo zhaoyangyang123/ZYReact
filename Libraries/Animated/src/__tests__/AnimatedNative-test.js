@@ -36,7 +36,6 @@ describe('Native Animated', () => {
 
   beforeEach(() => {
     Object.assign(NativeAnimatedModule, {
-      getValue: jest.fn(),
       addAnimatedEventToView: jest.fn(),
       connectAnimatedNodes: jest.fn(),
       connectAnimatedNodeToView: jest.fn(),
@@ -114,26 +113,6 @@ describe('Native Animated', () => {
       expect(NativeAnimatedModule.flattenAnimatedNodeOffset).toBeCalledWith(
         expect.any(Number),
       );
-    });
-
-    it('should save value on unmount', () => {
-      NativeAnimatedModule.getValue = jest.fn((tag, saveCallback) => {
-        saveCallback(1);
-      });
-      const opacity = new Animated.Value(0);
-
-      opacity.__makeNative();
-
-      const root = TestRenderer.create(<Animated.View style={{opacity}} />);
-      const tag = opacity.__getNativeTag();
-
-      root.unmount();
-
-      expect(NativeAnimatedModule.getValue).toBeCalledWith(
-        tag,
-        expect.any(Function),
-      );
-      expect(opacity.__getValue()).toBe(1);
     });
 
     it('should extract offset', () => {
@@ -281,9 +260,9 @@ describe('Native Animated', () => {
         listener,
       });
       const handler = event.__getHandler();
-      handler({nativeEvent: {foo: 42}});
+      handler({foo: 42});
       expect(listener).toHaveBeenCalledTimes(1);
-      expect(listener).toBeCalledWith({nativeEvent: {foo: 42}});
+      expect(listener).toBeCalledWith({foo: 42});
     });
   });
 
@@ -378,19 +357,11 @@ describe('Native Animated', () => {
       expect(additionConnectionCalls.length).toBe(2);
       expect(NativeAnimatedModule.createAnimatedNode).toBeCalledWith(
         additionCall[1].input[0],
-        {
-          type: 'value',
-          value: 1,
-          offset: 0,
-        },
+        {type: 'value', value: 1, offset: 0},
       );
       expect(NativeAnimatedModule.createAnimatedNode).toBeCalledWith(
         additionCall[1].input[1],
-        {
-          type: 'value',
-          value: 2,
-          offset: 0,
-        },
+        {type: 'value', value: 2, offset: 0},
       );
     });
 
@@ -420,19 +391,11 @@ describe('Native Animated', () => {
       expect(subtractionConnectionCalls.length).toBe(2);
       expect(NativeAnimatedModule.createAnimatedNode).toBeCalledWith(
         subtractionCall[1].input[0],
-        {
-          type: 'value',
-          value: 2,
-          offset: 0,
-        },
+        {type: 'value', value: 2, offset: 0},
       );
       expect(NativeAnimatedModule.createAnimatedNode).toBeCalledWith(
         subtractionCall[1].input[1],
-        {
-          type: 'value',
-          value: 1,
-          offset: 0,
-        },
+        {type: 'value', value: 1, offset: 0},
       );
     });
 
@@ -462,19 +425,11 @@ describe('Native Animated', () => {
       expect(multiplicationConnectionCalls.length).toBe(2);
       expect(NativeAnimatedModule.createAnimatedNode).toBeCalledWith(
         multiplicationCall[1].input[0],
-        {
-          type: 'value',
-          value: 2,
-          offset: 0,
-        },
+        {type: 'value', value: 2, offset: 0},
       );
       expect(NativeAnimatedModule.createAnimatedNode).toBeCalledWith(
         multiplicationCall[1].input[1],
-        {
-          type: 'value',
-          value: 1,
-          offset: 0,
-        },
+        {type: 'value', value: 1, offset: 0},
       );
     });
 
@@ -504,19 +459,11 @@ describe('Native Animated', () => {
       expect(divisionConnectionCalls.length).toBe(2);
       expect(NativeAnimatedModule.createAnimatedNode).toBeCalledWith(
         divisionCall[1].input[0],
-        {
-          type: 'value',
-          value: 4,
-          offset: 0,
-        },
+        {type: 'value', value: 4, offset: 0},
       );
       expect(NativeAnimatedModule.createAnimatedNode).toBeCalledWith(
         divisionCall[1].input[1],
-        {
-          type: 'value',
-          value: 2,
-          offset: 0,
-        },
+        {type: 'value', value: 2, offset: 0},
       );
     });
 
@@ -544,11 +491,7 @@ describe('Native Animated', () => {
       expect(moduloConnectionCalls.length).toBe(1);
       expect(NativeAnimatedModule.createAnimatedNode).toBeCalledWith(
         moduloCall[1].input,
-        {
-          type: 'value',
-          value: 4,
-          offset: 0,
-        },
+        {type: 'value', value: 4, offset: 0},
       );
     });
 
@@ -645,11 +588,7 @@ describe('Native Animated', () => {
       expect(diffClampConnectionCalls.length).toBe(1);
       expect(NativeAnimatedModule.createAnimatedNode).toBeCalledWith(
         diffClampCall[1].input,
-        {
-          type: 'value',
-          value: 2,
-          offset: 0,
-        },
+        {type: 'value', value: 2, offset: 0},
       );
     });
 

@@ -15,11 +15,8 @@
 
 using namespace facebook::react;
 
-static NSString *const kRCTLegacyInteropChildComponentKey = @"childComponentView";
-static NSString *const kRCTLegacyInteropChildIndexKey = @"index";
-
 @implementation RCTLegacyViewManagerInteropComponentView {
-  NSMutableArray<NSDictionary *> *_viewsToBeMounted;
+  NSMutableDictionary<NSNumber *, UIView *> *_viewsToBeMounted;
   NSMutableArray<UIView *> *_viewsToBeUnmounted;
   RCTLegacyViewManagerInteropCoordinatorAdapter *_adapter;
   LegacyViewManagerInteropShadowNode::ConcreteState::Shared _state;
@@ -30,7 +27,7 @@ static NSString *const kRCTLegacyInteropChildIndexKey = @"index";
   if (self = [super initWithFrame:frame]) {
     static const auto defaultProps = std::make_shared<const LegacyViewManagerInteropViewProps>();
     _props = defaultProps;
-    _viewsToBeMounted = [NSMutableArray new];
+    _viewsToBeMounted = [NSMutableDictionary new];
     _viewsToBeUnmounted = [NSMutableArray new];
   }
 
@@ -39,16 +36,8 @@ static NSString *const kRCTLegacyInteropChildIndexKey = @"index";
 
 + (NSMutableSet<NSString *> *)supportedViewManagers
 {
-  static NSMutableSet<NSString *> *supported = [NSMutableSet setWithObjects:@"Picker",
-                                                                            @"DatePicker",
-                                                                            @"ProgressView",
-                                                                            @"SegmentedControl",
-                                                                            @"MaskedView",
-                                                                            @"ARTSurfaceView",
-                                                                            @"ARTText",
-                                                                            @"ARTShape",
-                                                                            @"ARTGroup",
-                                                                            nil];
+  static NSMutableSet<NSString *> *supported =
+      [NSMutableSet setWithObjects:@"Picker", @"DatePicker", @"ProgressView", @"SegmentedControl", @"MaskedView", nil];
   return supported;
 }
 
@@ -87,16 +76,12 @@ static NSString *const kRCTLegacyInteropChildIndexKey = @"index";
   [_viewsToBeMounted removeAllObjects];
   [_viewsToBeUnmounted removeAllObjects];
   _state.reset();
-  self.contentView = nil;
   [super prepareForRecycle];
 }
 
 - (void)mountChildComponentView:(UIView<RCTComponentViewProtocol> *)childComponentView index:(NSInteger)index
 {
-  [_viewsToBeMounted addObject:@{
-    kRCTLegacyInteropChildIndexKey : [NSNumber numberWithInteger:index],
-    kRCTLegacyInteropChildComponentKey : childComponentView
-  }];
+  [_viewsToBeMounted setObject:childComponentView forKey:[NSNumber numberWithInteger:index]];
 }
 
 - (void)unmountChildComponentView:(UIView<RCTComponentViewProtocol> *)childComponentView index:(NSInteger)index
@@ -133,10 +118,8 @@ static NSString *const kRCTLegacyInteropChildIndexKey = @"index";
     self.contentView = _adapter.paperView;
   }
 
-  for (NSDictionary *mountInstruction in _viewsToBeMounted) {
-    NSNumber *index = mountInstruction[kRCTLegacyInteropChildIndexKey];
-    UIView *childView = mountInstruction[kRCTLegacyInteropChildComponentKey];
-    [_adapter.paperView insertReactSubview:childView atIndex:index.integerValue];
+  for (NSNumber *key in _viewsToBeMounted) {
+    [_adapter.paperView insertReactSubview:_viewsToBeMounted[key] atIndex:key.integerValue];
   }
 
   [_viewsToBeMounted removeAllObjects];

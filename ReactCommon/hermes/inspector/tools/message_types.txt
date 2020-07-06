@@ -10,7 +10,6 @@ Debugger.resumed
 Debugger.scriptParsed
 Debugger.setBreakpoint
 Debugger.setBreakpointByUrl
-Debugger.setInstrumentationBreakpoint
 Debugger.setPauseOnExceptions
 Debugger.stepInto
 Debugger.stepOut
@@ -18,10 +17,8 @@ Debugger.stepOver
 HeapProfiler.addHeapSnapshotChunk
 HeapProfiler.reportHeapSnapshotProgress
 HeapProfiler.takeHeapSnapshot
-HeapProfiler.startTrackingHeapObjects
-HeapProfiler.stopTrackingHeapObjects
 Runtime.consoleAPICalled
 Runtime.evaluate
 Runtime.executionContextCreated
+Runtime.getHeapUsage
 Runtime.getProperties
-Runtime.runIfWaitingForDebugger

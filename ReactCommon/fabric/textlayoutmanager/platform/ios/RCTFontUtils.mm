@@ -71,8 +71,7 @@ static UIFont *RCTDefaultFontWithFontProperties(RCTFontProperties fontProperties
   static NSCache *fontCache;
   static std::mutex fontCacheMutex;
 
-  CGFloat effectiveFontSize = fontProperties.sizeMultiplier * fontProperties.size;
-  NSString *cacheKey = [NSString stringWithFormat:@"%.1f/%.2f", effectiveFontSize, fontProperties.weight];
+  NSString *cacheKey = [NSString stringWithFormat:@"%.1f/%.2f", fontProperties.size, fontProperties.weight];
   UIFont *font;
 
   {
@@ -84,7 +83,7 @@ static UIFont *RCTDefaultFontWithFontProperties(RCTFontProperties fontProperties
   }
 
   if (!font) {
-    font = [UIFont systemFontOfSize:effectiveFontSize weight:fontProperties.weight];
+    font = [UIFont systemFontOfSize:fontProperties.size weight:fontProperties.weight];
 
     if (fontProperties.variant == RCTFontStyleItalic) {
       UIFontDescriptor *fontDescriptor = [font fontDescriptor];
@@ -93,7 +92,7 @@ static UIFont *RCTDefaultFontWithFontProperties(RCTFontProperties fontProperties
       symbolicTraits |= UIFontDescriptorTraitItalic;
 
       fontDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:symbolicTraits];
-      font = [UIFont fontWithDescriptor:fontDescriptor size:effectiveFontSize];
+      font = [UIFont fontWithDescriptor:fontDescriptor size:fontProperties.size];
     }
 
     {

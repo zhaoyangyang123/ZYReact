@@ -43,8 +43,7 @@
     }
   });
   return _RCT_CAST(
-      UIStatusBarStyle,
-      [RCTConvertEnumValue("UIStatusBarStyle", mapping, @(UIStatusBarStyleDefault), json) integerValue]);
+      UIStatusBarStyle, [RCTConvertEnumValue("UIStatusBarStyle", mapping, @(UIStatusBarStyleDefault), json) integerValue]);
 }
 
 RCT_ENUM_CONVERTER(
@@ -62,7 +61,7 @@ RCT_ENUM_CONVERTER(
 
 #if !TARGET_OS_TV
 
-@interface RCTStatusBarManager () <NativeStatusBarManagerIOSSpec>
+@interface RCTStatusBarManager() <NativeStatusBarManagerIOSSpec>
 @end
 
 #endif
@@ -185,15 +184,10 @@ RCT_EXPORT_METHOD(setNetworkActivityIndicatorVisible : (BOOL)visible)
 
 - (facebook::react::ModuleConstants<JS::NativeStatusBarManagerIOS::Constants>)getConstants
 {
-  __block facebook::react::ModuleConstants<JS::NativeStatusBarManagerIOS::Constants> constants;
-  RCTUnsafeExecuteOnMainQueueSync(^{
-    constants = facebook::react::typedConstants<JS::NativeStatusBarManagerIOS::Constants>({
-        .HEIGHT = RCTSharedApplication().statusBarFrame.size.height,
-        .DEFAULT_BACKGROUND_COLOR = folly::none,
-    });
+  return facebook::react::typedConstants<JS::NativeStatusBarManagerIOS::Constants>({
+    .HEIGHT = RCTSharedApplication().statusBarFrame.size.height,
+    .DEFAULT_BACKGROUND_COLOR = folly::none,
   });
-
-  return constants;
 }
 
 - (facebook::react::ModuleConstants<JS::NativeStatusBarManagerIOS::Constants>)constantsToExport
@@ -201,17 +195,15 @@ RCT_EXPORT_METHOD(setNetworkActivityIndicatorVisible : (BOOL)visible)
   return (facebook::react::ModuleConstants<JS::NativeStatusBarManagerIOS::Constants>)[self getConstants];
 }
 
-- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
-    (const facebook::react::ObjCTurboModule::InitParams &)params
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModuleWithJsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker
 {
-  return std::make_shared<facebook::react::NativeStatusBarManagerIOSSpecJSI>(params);
+  return std::make_shared<facebook::react::NativeStatusBarManagerIOSSpecJSI>(self, jsInvoker);
 }
 
 #endif // TARGET_OS_TV
 
 @end
 
-Class RCTStatusBarManagerCls(void)
-{
+Class RCTStatusBarManagerCls(void) {
   return RCTStatusBarManager.class;
 }

@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include <memory>
+#import <memory>
 
-#include "NativeSampleTurboCxxModuleSpecJSI.h"
+#import "NativeSampleTurboCxxModuleSpecJSI.h"
 
 namespace facebook {
 namespace react {

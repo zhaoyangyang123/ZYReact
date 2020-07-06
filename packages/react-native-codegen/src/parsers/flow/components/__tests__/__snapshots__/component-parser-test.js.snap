@@ -361,7 +361,7 @@ Object {
               "optional": false,
               "typeAnnotation": Object {
                 "name": "ImageSourcePrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -369,7 +369,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "ImageSourcePrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -377,7 +377,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "ImageSourcePrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -385,7 +385,7 @@ Object {
               "optional": false,
               "typeAnnotation": Object {
                 "name": "ColorPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -393,7 +393,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "ColorPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -401,7 +401,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "ColorPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -409,7 +409,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "ColorPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -418,7 +418,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ColorPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -429,7 +429,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ColorPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -440,7 +440,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ColorPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -451,41 +451,9 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ColorPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
-              },
-            },
-            Object {
-              "name": "processed_color_required",
-              "optional": false,
-              "typeAnnotation": Object {
-                "name": "ColorPrimitive",
-                "type": "ReservedPropTypeAnnotation",
-              },
-            },
-            Object {
-              "name": "processed_color_optional_key",
-              "optional": true,
-              "typeAnnotation": Object {
-                "name": "ColorPrimitive",
-                "type": "ReservedPropTypeAnnotation",
-              },
-            },
-            Object {
-              "name": "processed_color_optional_value",
-              "optional": true,
-              "typeAnnotation": Object {
-                "name": "ColorPrimitive",
-                "type": "ReservedPropTypeAnnotation",
-              },
-            },
-            Object {
-              "name": "processed_color_optional_both",
-              "optional": true,
-              "typeAnnotation": Object {
-                "name": "ColorPrimitive",
-                "type": "ReservedPropTypeAnnotation",
               },
             },
             Object {
@@ -493,7 +461,7 @@ Object {
               "optional": false,
               "typeAnnotation": Object {
                 "name": "PointPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -501,7 +469,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "PointPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -509,7 +477,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "PointPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -517,7 +485,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "PointPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -525,7 +493,7 @@ Object {
               "optional": false,
               "typeAnnotation": Object {
                 "name": "EdgeInsetsPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -533,7 +501,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "EdgeInsetsPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -541,7 +509,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "EdgeInsetsPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
             Object {
@@ -549,7 +517,7 @@ Object {
               "optional": true,
               "typeAnnotation": Object {
                 "name": "EdgeInsetsPrimitive",
-                "type": "ReservedPropTypeAnnotation",
+                "type": "NativePrimitiveTypeAnnotation",
               },
             },
           ],
@@ -819,7 +787,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ImageSourcePrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -830,7 +798,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ImageSourcePrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -841,7 +809,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ImageSourcePrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -852,7 +820,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ImageSourcePrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -863,7 +831,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ColorPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -874,7 +842,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ColorPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -885,7 +853,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ColorPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -896,7 +864,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "ColorPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -907,7 +875,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "PointPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -918,7 +886,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "PointPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -929,7 +897,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "PointPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -940,7 +908,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "PointPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -951,7 +919,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "EdgeInsetsPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -962,7 +930,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "EdgeInsetsPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -973,7 +941,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "EdgeInsetsPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -984,7 +952,7 @@ Object {
               "typeAnnotation": Object {
                 "elementType": Object {
                   "name": "EdgeInsetsPrimitive",
-                  "type": "ReservedPropTypeAnnotation",
+                  "type": "NativePrimitiveTypeAnnotation",
                 },
                 "type": "ArrayTypeAnnotation",
               },
@@ -1550,54 +1518,6 @@ Object {
                       ],
                       "type": "ObjectTypeAnnotation",
                     },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
                   ],
                   "type": "ObjectTypeAnnotation",
                 },
@@ -1851,54 +1771,6 @@ Object {
                       ],
                       "type": "ObjectTypeAnnotation",
                     },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
                   ],
                   "type": "ObjectTypeAnnotation",
                 },
@@ -2147,54 +2019,6 @@ Object {
                             },
                           ],
                           "type": "ObjectTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
                         },
                       ],
                       "type": "ObjectTypeAnnotation",
@@ -2452,54 +2276,6 @@ Object {
                       ],
                       "type": "ObjectTypeAnnotation",
                     },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
                   ],
                   "type": "ObjectTypeAnnotation",
                 },
@@ -2528,22 +2304,6 @@ Object {
       "components": Object {
         "Module": Object {
           "commands": Array [
-            Object {
-              "name": "handleRootTag",
-              "optional": false,
-              "typeAnnotation": Object {
-                "params": Array [
-                  Object {
-                    "name": "rootTag",
-                    "typeAnnotation": Object {
-                      "name": "RootTag",
-                      "type": "ReservedFunctionValueTypeAnnotation",
-                    },
-                  },
-                ],
-                "type": "FunctionTypeAnnotation",
-              },
-            },
             Object {
               "name": "hotspotUpdate",
               "optional": false,
@@ -3057,54 +2817,6 @@ Object {
                       ],
                       "type": "ObjectTypeAnnotation",
                     },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
                   ],
                   "type": "ObjectTypeAnnotation",
                 },
@@ -3353,54 +3065,6 @@ Object {
                             },
                           ],
                           "type": "ObjectTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
                         },
                       ],
                       "type": "ObjectTypeAnnotation",
@@ -3657,54 +3321,6 @@ Object {
                       ],
                       "type": "ObjectTypeAnnotation",
                     },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
                   ],
                   "type": "ObjectTypeAnnotation",
                 },
@@ -3953,54 +3569,6 @@ Object {
                             },
                           ],
                           "type": "ObjectTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
                         },
                       ],
                       "type": "ObjectTypeAnnotation",
@@ -4258,54 +3826,6 @@ Object {
                       ],
                       "type": "ObjectTypeAnnotation",
                     },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
                   ],
                   "type": "ObjectTypeAnnotation",
                 },
@@ -4554,54 +4074,6 @@ Object {
                             },
                           ],
                           "type": "ObjectTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
                         },
                       ],
                       "type": "ObjectTypeAnnotation",
@@ -4858,54 +4330,6 @@ Object {
                       ],
                       "type": "ObjectTypeAnnotation",
                     },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
                   ],
                   "type": "ObjectTypeAnnotation",
                 },
@@ -5154,54 +4578,6 @@ Object {
                             },
                           ],
                           "type": "ObjectTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
                         },
                       ],
                       "type": "ObjectTypeAnnotation",
@@ -5458,54 +4834,6 @@ Object {
                       ],
                       "type": "ObjectTypeAnnotation",
                     },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
                   ],
                   "type": "ObjectTypeAnnotation",
                 },
@@ -5755,54 +5083,6 @@ Object {
                             },
                           ],
                           "type": "ObjectTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
                         },
                       ],
                       "type": "ObjectTypeAnnotation",
@@ -6074,7 +5354,7 @@ Object {
                     "optional": false,
                     "typeAnnotation": Object {
                       "name": "ImageSourcePrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6091,7 +5371,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "ImageSourcePrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6108,7 +5388,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "ImageSourcePrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6125,7 +5405,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "ImageSourcePrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6142,7 +5422,7 @@ Object {
                     "optional": false,
                     "typeAnnotation": Object {
                       "name": "ColorPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6159,7 +5439,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "ColorPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6176,7 +5456,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "ColorPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6193,75 +5473,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "ColorPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
-                    },
-                  },
-                ],
-                "type": "ObjectTypeAnnotation",
-              },
-            },
-            Object {
-              "name": "processed_color_required",
-              "optional": false,
-              "typeAnnotation": Object {
-                "properties": Array [
-                  Object {
-                    "name": "prop",
-                    "optional": false,
-                    "typeAnnotation": Object {
-                      "name": "ColorPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
-                    },
-                  },
-                ],
-                "type": "ObjectTypeAnnotation",
-              },
-            },
-            Object {
-              "name": "processed_color_optional_key",
-              "optional": false,
-              "typeAnnotation": Object {
-                "properties": Array [
-                  Object {
-                    "name": "prop",
-                    "optional": true,
-                    "typeAnnotation": Object {
-                      "name": "ColorPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
-                    },
-                  },
-                ],
-                "type": "ObjectTypeAnnotation",
-              },
-            },
-            Object {
-              "name": "processed_color_optional_value",
-              "optional": false,
-              "typeAnnotation": Object {
-                "properties": Array [
-                  Object {
-                    "name": "prop",
-                    "optional": true,
-                    "typeAnnotation": Object {
-                      "name": "ColorPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
-                    },
-                  },
-                ],
-                "type": "ObjectTypeAnnotation",
-              },
-            },
-            Object {
-              "name": "processed_color_optional_both",
-              "optional": false,
-              "typeAnnotation": Object {
-                "properties": Array [
-                  Object {
-                    "name": "prop",
-                    "optional": true,
-                    "typeAnnotation": Object {
-                      "name": "ColorPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6278,7 +5490,7 @@ Object {
                     "optional": false,
                     "typeAnnotation": Object {
                       "name": "PointPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6295,7 +5507,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "PointPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6312,7 +5524,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "PointPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6329,7 +5541,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "PointPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6346,7 +5558,7 @@ Object {
                     "optional": false,
                     "typeAnnotation": Object {
                       "name": "EdgeInsetsPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6363,7 +5575,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "EdgeInsetsPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6380,7 +5592,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "EdgeInsetsPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6397,7 +5609,7 @@ Object {
                     "optional": true,
                     "typeAnnotation": Object {
                       "name": "EdgeInsetsPrimitive",
-                      "type": "ReservedPropTypeAnnotation",
+                      "type": "NativePrimitiveTypeAnnotation",
                     },
                   },
                 ],
@@ -6606,9 +5818,6 @@ Object {
                 "type": "EventTypeAnnotation",
               },
             },
-          ],
-          "excludedPlatforms": Array [
-            "android",
           ],
           "extendsProps": Array [
             Object {
@@ -7005,54 +6214,6 @@ Object {
                       ],
                       "type": "ObjectTypeAnnotation",
                     },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
                   ],
                   "type": "ObjectTypeAnnotation",
                 },
@@ -7302,54 +6463,6 @@ Object {
                             },
                           ],
                           "type": "ObjectTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
                         },
                       ],
                       "type": "ObjectTypeAnnotation",
@@ -7606,54 +6719,6 @@ Object {
                       ],
                       "type": "ObjectTypeAnnotation",
                     },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
                   ],
                   "type": "ObjectTypeAnnotation",
                 },
@@ -7903,54 +6968,6 @@ Object {
                             },
                           ],
                           "type": "ObjectTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_required",
-                      "optional": false,
-                      "properties": Array [
-                        Object {
-                          "name": "boolean_required",
-                          "optional": false,
-                          "type": "BooleanTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_key",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "string_optional_key",
-                          "optional": true,
-                          "type": "StringTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_value",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "float_optional_value",
-                          "optional": true,
-                          "type": "FloatTypeAnnotation",
-                        },
-                      ],
-                      "type": "ObjectTypeAnnotation",
-                    },
-                    Object {
-                      "name": "object_readonly_optional_both",
-                      "optional": true,
-                      "properties": Array [
-                        Object {
-                          "name": "int32_optional_both",
-                          "optional": true,
-                          "type": "Int32TypeAnnotation",
                         },
                       ],
                       "type": "ObjectTypeAnnotation",

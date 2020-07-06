@@ -25,11 +25,14 @@ import java.util.Map;
 
   private int mConnectedViewTag = -1;
   private final NativeAnimatedNodesManager mNativeAnimatedNodesManager;
+  private final UIManager mUIManager;
   private final Map<String, Integer> mPropNodeMapping;
   private final JavaOnlyMap mPropMap;
-  @Nullable private UIManager mUIManager;
 
-  PropsAnimatedNode(ReadableMap config, NativeAnimatedNodesManager nativeAnimatedNodesManager) {
+  PropsAnimatedNode(
+      ReadableMap config,
+      NativeAnimatedNodesManager nativeAnimatedNodesManager,
+      UIManager uiManager) {
     ReadableMap props = config.getMap("props");
     ReadableMapKeySetIterator iter = props.keySetIterator();
     mPropNodeMapping = new HashMap<>();
@@ -40,36 +43,28 @@ import java.util.Map;
     }
     mPropMap = new JavaOnlyMap();
     mNativeAnimatedNodesManager = nativeAnimatedNodesManager;
-  }
-
-  public void connectToView(int viewTag, UIManager uiManager) {
-    if (mConnectedViewTag != -1) {
-      throw new JSApplicationIllegalArgumentException(
-          "Animated node " + mTag + " is " + "already attached to a view: " + mConnectedViewTag);
-    }
-    mConnectedViewTag = viewTag;
     mUIManager = uiManager;
   }
 
+  public void connectToView(int viewTag) {
+    if (mConnectedViewTag != -1) {
+      throw new JSApplicationIllegalArgumentException(
+          "Animated node " + mTag + " is " + "already attached to a view");
+    }
+    mConnectedViewTag = viewTag;
+  }
+
   public void disconnectFromView(int viewTag) {
-    if (mConnectedViewTag != viewTag && mConnectedViewTag != -1) {
+    if (mConnectedViewTag != viewTag) {
       throw new JSApplicationIllegalArgumentException(
           "Attempting to disconnect view that has "
-              + "not been connected with the given animated node: "
-              + viewTag
-              + " but is connected to view "
-              + mConnectedViewTag);
+              + "not been connected with the given animated node");
     }
 
     mConnectedViewTag = -1;
   }
 
   public void restoreDefaultValues() {
-    // Cannot restore default values if this view has already been disconnected.
-    if (mConnectedViewTag == -1) {
-      return;
-    }
-
     ReadableMapKeySetIterator it = mPropMap.keySetIterator();
     while (it.hasNextKey()) {
       mPropMap.putNull(it.nextKey());

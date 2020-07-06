@@ -25,21 +25,6 @@ function Basic(): React.Node {
   );
 }
 
-function NestedTexts(): React.Node {
-  return (
-    <View>
-      <Text>This is the first row</Text>
-      <Text>
-        <Text>
-          <Text>This is a nested text </Text>
-          <View style={{height: 20, width: 20, backgroundColor: 'red'}} />
-          <Text> with a Red View</Text>
-        </Text>
-      </Text>
-    </View>
-  );
-}
-
 function ClippedByText(): React.Node {
   return (
     <View>
@@ -215,7 +200,6 @@ class ChangeInnerViewSize extends React.Component<*, ChangeSizeState> {
 
 module.exports = {
   Basic,
-  NestedTexts,
   ClippedByText,
   ChangeImageSize,
   ChangeViewSize,

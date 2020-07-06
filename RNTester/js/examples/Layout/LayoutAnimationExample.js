@@ -19,179 +19,44 @@ const {
   TouchableOpacity,
 } = require('react-native');
 
-type ExampleViewSpec = {|
-  key: number,
-|};
-
-type AddRemoveExampleState = {|
-  views: Array<ExampleViewSpec>,
-  nextKey: number,
-|};
-
-function shuffleArray(array: Array<ExampleViewSpec>) {
-  var currentIndex: number = array.length,
-    temporaryValue: ExampleViewSpec,
-    randomIndex: number;
-
-  // While there remain elements to shuffle...
-  while (currentIndex !== 0) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
-
-class AddRemoveExample extends React.Component<{...}, AddRemoveExampleState> {
+class AddRemoveExample extends React.Component<{...}, $FlowFixMeState> {
   state = {
     views: [],
-    nextKey: 1,
   };
 
-  configureNextAnimation() {
-    LayoutAnimation.configureNext(
-      {
-        duration: 1000,
-        create: {type: 'easeInEaseOut', property: 'opacity'},
-        update: {type: 'easeInEaseOut', property: 'opacity'},
-        delete: {type: 'easeInEaseOut', property: 'opacity'},
-      },
-      args => console.log('AddRemoveExample completed', args),
+  UNSAFE_componentWillUpdate() {
+    LayoutAnimation.easeInEaseOut(args =>
+      console.log('AddRemoveExample completed', args),
     );
   }
 
-  _onPressAddViewAnimated = () => {
-    this.configureNextAnimation();
-    this._onPressAddView();
-  };
-
-  _onPressRemoveViewAnimated = () => {
-    this.configureNextAnimation();
-    this._onPressRemoveView();
-  };
-
-  _onPressReorderViewsAnimated = () => {
-    this.configureNextAnimation();
-    this._onPressReorderViews();
-  };
-
   _onPressAddView = () => {
-    this.setState(state => ({
-      views: [...state.views, {key: state.nextKey}],
-      nextKey: state.nextKey + 1,
-    }));
+    this.setState(state => ({views: [...state.views, {}]}));
   };
 
   _onPressRemoveView = () => {
     this.setState(state => ({views: state.views.slice(0, -1)}));
   };
 
-  _onPressReorderViews = () => {
-    this.setState(state => ({views: shuffleArray(state.views)}));
-  };
-
   render() {
-    const views = this.state.views.map(({key}) => (
-      <View
-        key={key}
-        style={styles.view}
-        onLayout={evt => console.log('Box onLayout')}>
-        <Text>{key}</Text>
+    const views = this.state.views.map((view, i) => (
+      <View key={i} style={styles.view}>
+        <Text>{i}</Text>
       </View>
     ));
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this._onPressAddViewAnimated}>
+        <TouchableOpacity onPress={this._onPressAddView}>
           <View style={styles.button}>
             <Text>Add view</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this._onPressRemoveViewAnimated}>
+        <TouchableOpacity onPress={this._onPressRemoveView}>
           <View style={styles.button}>
             <Text>Remove view</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this._onPressReorderViewsAnimated}>
-          <View style={styles.button}>
-            <Text>Reorder Views</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this._onPressAddView}>
-          <View style={styles.button}>
-            <Text>Add view (no animation)</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this._onPressRemoveView}>
-          <View style={styles.button}>
-            <Text>Remove view (no animation)</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this._onPressReorderViews}>
-          <View style={styles.button}>
-            <Text>Reorder Views (no animation)</Text>
-          </View>
-        </TouchableOpacity>
         <View style={styles.viewContainer}>{views}</View>
-      </View>
-    );
-  }
-}
-
-type ReparentingExampleState = {|
-  hasBorder: boolean,
-|};
-
-class ReparentingExample extends React.Component<
-  {...},
-  ReparentingExampleState,
-> {
-  state = {
-    hasBorder: false,
-  };
-
-  _onPressToggleAnimated = () => {
-    LayoutAnimation.configureNext(
-      {
-        duration: 300,
-        create: {type: 'easeInEaseOut', property: 'opacity', duration: 1000},
-        update: {type: 'easeInEaseOut', property: 'opacity'},
-        delete: {type: 'easeInEaseOut', property: 'opacity', duration: 1000},
-      },
-      args => console.log('ReparentingExample completed', args),
-    );
-    this._onPressToggle();
-  };
-
-  _onPressToggle = () => {
-    this.setState(state => ({hasBorder: !state.hasBorder}));
-  };
-
-  render() {
-    const parentStyle = this.state.hasBorder
-      ? {borderWidth: 5, borderColor: 'red'}
-      : {};
-
-    return (
-      <View style={styles.container}>
-        <TouchableOpacity onPress={this._onPressToggleAnimated}>
-          <View style={styles.button}>
-            <Text>Toggle</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this._onPressToggle}>
-          <View style={styles.button}>
-            <Text>Toggle (no animation)</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={parentStyle}>
-          <GreenSquare />
-        </View>
       </View>
     );
   }
@@ -209,11 +74,7 @@ const BlueSquare = () => (
   </View>
 );
 
-type CrossFadeExampleState = {|
-  toggled: boolean,
-|};
-
-class CrossFadeExample extends React.Component<{...}, CrossFadeExampleState> {
+class CrossFadeExample extends React.Component<{...}, $FlowFixMeState> {
   state = {
     toggled: false,
   };
@@ -241,15 +102,7 @@ class CrossFadeExample extends React.Component<{...}, CrossFadeExampleState> {
   }
 }
 
-type LayoutUpdateExampleState = {|
-  width: number,
-  height: number,
-|};
-
-class LayoutUpdateExample extends React.Component<
-  {...},
-  LayoutUpdateExampleState,
-> {
+class LayoutUpdateExample extends React.Component<{...}, $FlowFixMeState> {
   state = {
     width: 200,
     height: 100,
@@ -351,12 +204,6 @@ exports.examples = [
     title: 'Add and remove views',
     render(): React.Element<any> {
       return <AddRemoveExample />;
-    },
-  },
-  {
-    title: 'Animate Reparenting Update',
-    render(): React.Element<any> {
-      return <ReparentingExample />;
     },
   },
   {

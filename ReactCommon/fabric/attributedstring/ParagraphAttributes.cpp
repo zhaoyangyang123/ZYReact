@@ -20,14 +20,12 @@ bool ParagraphAttributes::operator==(const ParagraphAttributes &rhs) const {
              maximumNumberOfLines,
              ellipsizeMode,
              textBreakStrategy,
-             adjustsFontSizeToFit,
-             includeFontPadding) ==
+             adjustsFontSizeToFit) ==
       std::tie(
              rhs.maximumNumberOfLines,
              rhs.ellipsizeMode,
              rhs.textBreakStrategy,
-             rhs.adjustsFontSizeToFit,
-             rhs.includeFontPadding) &&
+             rhs.adjustsFontSizeToFit) &&
       floatEquality(minimumFontSize, rhs.minimumFontSize) &&
       floatEquality(maximumFontSize, rhs.maximumFontSize);
 }
@@ -46,8 +44,7 @@ SharedDebugStringConvertibleList ParagraphAttributes::getDebugProps() const {
       debugStringConvertibleItem("textBreakStrategy", textBreakStrategy),
       debugStringConvertibleItem("adjustsFontSizeToFit", adjustsFontSizeToFit),
       debugStringConvertibleItem("minimumFontSize", minimumFontSize),
-      debugStringConvertibleItem("maximumFontSize", maximumFontSize),
-      debugStringConvertibleItem("includeFontPadding", includeFontPadding)};
+      debugStringConvertibleItem("maximumFontSize", maximumFontSize)};
 }
 #endif
 

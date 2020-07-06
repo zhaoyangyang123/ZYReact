@@ -72,7 +72,7 @@ function getJavaValueForProp(prop: PropTypeShape, imports): string {
       } else {
         return 'float value';
       }
-    case 'ReservedPropTypeAnnotation':
+    case 'NativePrimitiveTypeAnnotation':
       switch (typeAnnotation.name) {
         case 'ColorPrimitive':
           addNullable(imports);
@@ -88,7 +88,7 @@ function getJavaValueForProp(prop: PropTypeShape, imports): string {
           return '@Nullable ReadableMap value';
         default:
           (typeAnnotation.name: empty);
-          throw new Error('Received unknown ReservedPropTypeAnnotation');
+          throw new Error('Received unknown NativePrimitiveTypeAnnotation');
       }
     case 'ArrayTypeAnnotation': {
       addNullable(imports);
@@ -125,17 +125,7 @@ function generatePropsString(component: ComponentShape, imports) {
 }
 
 function getCommandArgJavaType(param) {
-  const {typeAnnotation} = param;
-
-  switch (typeAnnotation.type) {
-    case 'ReservedFunctionValueTypeAnnotation':
-      switch (typeAnnotation.name) {
-        case 'RootTag':
-          return 'double';
-        default:
-          (typeAnnotation.name: empty);
-          throw new Error(`Receieved invalid type: ${typeAnnotation.name}`);
-      }
+  switch (param.typeAnnotation.type) {
     case 'BooleanTypeAnnotation':
       return 'boolean';
     case 'DoubleTypeAnnotation':
@@ -147,7 +137,7 @@ function getCommandArgJavaType(param) {
     case 'StringTypeAnnotation':
       return 'String';
     default:
-      (typeAnnotation.type: empty);
+      (param.typeAnnotation.type: empty);
       throw new Error('Receieved invalid typeAnnotation');
   }
 }
@@ -221,17 +211,14 @@ module.exports = {
       return Object.keys(components)
         .filter(componentName => {
           const component = components[componentName];
-          return !(
-            component.excludedPlatforms &&
-            component.excludedPlatforms.includes('android')
-          );
+          return component.excludedPlatform !== 'android';
         })
         .forEach(componentName => {
           const component = components[componentName];
           const className = getInterfaceJavaClassName(componentName);
           const fileName = `${className}.java`;
 
-          const imports = getImports(component, 'interface');
+          const imports = getImports(component);
           const propsString = generatePropsString(component, imports);
           const commandsString = generateCommandsString(
             component,

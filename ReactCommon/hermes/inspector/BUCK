@@ -51,7 +51,6 @@ fb_xplat_cxx_library(
     exported_headers = CHROME_EXPORTED_HEADERS,
     compiler_flags = CFLAGS_BY_MODE[hermes_build_mode()],
     fbobjc_header_path_prefix = "hermes/inspector/chrome",
-    labels = ["supermodule:xplat/default/public.hermes"],
     macosx_tests_override = [],
     tests = [":chrome-tests"],
     visibility = [
@@ -60,14 +59,13 @@ fb_xplat_cxx_library(
     xcode_public_headers_symlinks = True,
     deps = [
         react_native_xplat_target("jsinspector:jsinspector"),
+        "fbsource//xplat/folly:futures",
+        "fbsource//xplat/folly:molly",
+        "fbsource//xplat/hermes/API:HermesAPI",
+        "fbsource//xplat/jsi:jsi",
+        "fbsource//xplat/third-party/glog:glog",
         ":detail",
         ":inspectorlib",
-        "//third-party/glog:glog",
-        "//xplat/folly:futures",
-        "//xplat/folly:molly",
-        "//xplat/hermes/API:HermesAPI",
-        "//xplat/jsi:JSIDynamic",
-        "//xplat/jsi:jsi",
     ],
 )
 
@@ -87,9 +85,9 @@ fb_xplat_cxx_test(
         "PUBLIC",
     ],
     deps = [
+        "fbsource//xplat/third-party/gmock:gtest",
         ":chrome",
         ":detail",
-        "//xplat/third-party/gmock:gtest",
     ],
 )
 
@@ -118,7 +116,6 @@ fb_xplat_cxx_library(
         "//fbandroid/native/fb:fb",
     ],
     fbobjc_header_path_prefix = "hermes/inspector/detail",
-    labels = ["supermodule:xplat/default/public.hermes"],
     macosx_tests_override = [],
     tests = [":detail-tests"],
     visibility = [
@@ -126,7 +123,7 @@ fb_xplat_cxx_library(
     ],
     xcode_public_headers_symlinks = True,
     deps = [
-        "//xplat/folly:molly",
+        "fbsource//xplat/folly:molly",
     ],
 )
 
@@ -143,9 +140,9 @@ fb_xplat_cxx_test(
         "PUBLIC",
     ],
     deps = [
+        "fbsource//xplat/third-party/gmock:gmock",
+        "fbsource//xplat/third-party/gmock:gtest",
         ":detail",
-        "//xplat/third-party/gmock:gmock",
-        "//xplat/third-party/gmock:gtest",
     ],
 )
 
@@ -162,9 +159,9 @@ fb_xplat_cxx_binary(
         "PUBLIC",
     ],
     deps = [
+        "fbsource//xplat/hermes/API:HermesAPI",
         ":chrome",
         ":inspectorlib",
-        "//xplat/hermes/API:HermesAPI",
     ],
 )
 
@@ -191,19 +188,18 @@ fb_xplat_cxx_library(
     compiler_flags = CFLAGS_BY_MODE[hermes_build_mode()],
     cxx_tests = [":inspector-tests"],
     fbobjc_header_path_prefix = "hermes/inspector",
-    labels = ["supermodule:xplat/default/public.hermes"],
     macosx_tests_override = [],
     visibility = [
         "PUBLIC",
     ],
     xcode_public_headers_symlinks = True,
     deps = [
+        "fbsource//xplat/folly:futures",
+        "fbsource//xplat/folly:molly",
+        "fbsource//xplat/hermes/API:HermesAPI",
+        "fbsource//xplat/jsi:jsi",
+        "fbsource//xplat/third-party/glog:glog",
         ":detail",
-        "//third-party/glog:glog",
-        "//xplat/folly:futures",
-        "//xplat/folly:molly",
-        "//xplat/hermes/API:HermesAPI",
-        "//xplat/jsi:jsi",
     ],
 )
 
@@ -221,7 +217,7 @@ fb_xplat_cxx_test(
         "PUBLIC",
     ],
     deps = [
+        "fbsource//xplat/third-party/gmock:gtest",
         ":inspectorlib",
-        "//xplat/third-party/gmock:gtest",
     ],
 )

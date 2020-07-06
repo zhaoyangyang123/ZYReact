@@ -6,7 +6,6 @@
  */
 
 #include "Color.h"
-#include <cassert>
 
 namespace facebook {
 namespace react {
@@ -17,7 +16,7 @@ SharedColor colorFromComponents(ColorComponents components) {
 
   auto color = CGColorCreate(CGColorSpaceCreateDeviceRGB(), componentsArray);
 
-  return SharedColor(color, CGColorRelease);
+  return SharedColor(color, CFRelease);
 }
 
 ColorComponents colorComponentsFromColor(SharedColor color) {

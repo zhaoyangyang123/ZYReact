@@ -221,7 +221,7 @@ function getNativeTypeFromAnnotation(
     case 'DoubleTypeAnnotation':
     case 'FloatTypeAnnotation':
       return getCppTypeForAnnotation(typeAnnotation.type);
-    case 'ReservedPropTypeAnnotation':
+    case 'NativePrimitiveTypeAnnotation':
       switch (typeAnnotation.name) {
         case 'ColorPrimitive':
           return 'SharedColor';
@@ -233,7 +233,7 @@ function getNativeTypeFromAnnotation(
           return 'EdgeInsets';
         default:
           (typeAnnotation.name: empty);
-          throw new Error('Received unknown ReservedPropTypeAnnotation');
+          throw new Error('Received unknown NativePrimitiveTypeAnnotation');
       }
     case 'ArrayTypeAnnotation': {
       const arrayType = typeAnnotation.elementType.type;
@@ -275,7 +275,9 @@ function getNativeTypeFromAnnotation(
     default:
       (typeAnnotation: empty);
       throw new Error(
-        `Received invalid typeAnnotation for ${componentName} prop ${prop.name}, received ${typeAnnotation.type}`,
+        `Received invalid typeAnnotation for ${componentName} prop ${
+          prop.name
+        }, received ${typeAnnotation.type}`,
       );
   }
 }
@@ -452,7 +454,7 @@ function generatePropsString(
       const nativeType = getNativeTypeFromAnnotation(componentName, prop, []);
       const defaultValue = convertDefaultTypeToString(componentName, prop);
 
-      return `${nativeType} ${prop.name}{${defaultValue}};`;
+      return `const ${nativeType} ${prop.name}{${defaultValue}};`;
     })
     .join('\n' + '  ');
 }
@@ -503,14 +505,16 @@ function getLocalImports(
         return;
       default:
         (name: empty);
-        throw new Error(`Invalid ReservedPropTypeAnnotation name, got ${name}`);
+        throw new Error(
+          `Invalid NativePrimitiveTypeAnnotation name, got ${name}`,
+        );
     }
   }
 
   properties.forEach(prop => {
     const typeAnnotation = prop.typeAnnotation;
 
-    if (typeAnnotation.type === 'ReservedPropTypeAnnotation') {
+    if (typeAnnotation.type === 'NativePrimitiveTypeAnnotation') {
       addImportsForNativeName(typeAnnotation.name);
     }
 
@@ -523,7 +527,7 @@ function getLocalImports(
 
     if (
       typeAnnotation.type === 'ArrayTypeAnnotation' &&
-      typeAnnotation.elementType.type === 'ReservedPropTypeAnnotation'
+      typeAnnotation.elementType.type === 'NativePrimitiveTypeAnnotation'
     ) {
       addImportsForNativeName(typeAnnotation.elementType.name);
     }
@@ -701,7 +705,7 @@ function generateStruct(
         return;
       case 'FloatTypeAnnotation':
         return;
-      case 'ReservedPropTypeAnnotation':
+      case 'NativePrimitiveTypeAnnotation':
         return;
       case 'ArrayTypeAnnotation':
         return;
@@ -723,7 +727,9 @@ function generateStruct(
       default:
         (property.typeAnnotation.type: empty);
         throw new Error(
-          `Received invalid component property type ${property.typeAnnotation.type}`,
+          `Received invalid component property type ${
+            property.typeAnnotation.type
+          }`,
         );
     }
   });
@@ -768,10 +774,7 @@ module.exports = {
         return Object.keys(components)
           .filter(componentName => {
             const component = components[componentName];
-            return !(
-              component.excludedPlatforms &&
-              component.excludedPlatforms.includes('iOS')
-            );
+            return component.excludedPlatform !== 'iOS';
           })
           .map(componentName => {
             const component = components[componentName];

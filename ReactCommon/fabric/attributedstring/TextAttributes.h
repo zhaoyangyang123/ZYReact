@@ -71,13 +71,7 @@ class TextAttributes : public DebugStringConvertible {
 
   // Special
   folly::Optional<bool> isHighlighted{};
-
-  // TODO T59221129: document where this value comes from and how it is set.
-  // It's not clear if this is being used properly, or if it's being set at all.
-  // Currently, it is intentionally *not* being set as part of BaseTextProps
-  // construction.
   folly::Optional<LayoutDirection> layoutDirection{};
-  std::string accessibilityRole{""};
 
 #pragma mark - Operations
 
@@ -128,8 +122,7 @@ struct hash<facebook::react::TextAttributes> {
         textAttributes.textShadowRadius,
         textAttributes.textShadowColor,
         textAttributes.isHighlighted,
-        textAttributes.layoutDirection,
-        textAttributes.accessibilityRole);
+        textAttributes.layoutDirection);
   }
 };
 } // namespace std

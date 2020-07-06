@@ -20,17 +20,6 @@ Class<RCTComponentViewProtocol> RCTFabricComponentsProvider(const char *name) {
   static std::unordered_map<std::string, Class (*)(void)> sFabricComponentsClassMap = {
     {"SafeAreaView", RCTSafeAreaViewCls},
     {"ScrollView", RCTScrollViewCls},
-    {"PullToRefreshView", RCTPullToRefreshViewCls},
-    {"ActivityIndicatorView", RCTActivityIndicatorViewCls},
-    {"Slider", RCTSliderCls},
-    {"Switch", RCTSwitchCls},
-    {"UnimplementedNativeView", RCTUnimplementedNativeViewCls},
-    {"ModalHostView", RCTModalHostViewCls},
-    {"Image", RCTImageCls},
-    {"Paragraph", RCTParagraphCls},
-    {"TextInput", RCTTextInputCls},
-    {"InputAccessoryView", RCTInputAccessoryCls},
-    {"View", RCTViewCls},
   };
 
   auto p = sFabricComponentsClassMap.find(name);

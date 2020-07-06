@@ -110,7 +110,8 @@ const renderSectionHeader = ({section}) => (
 class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
   render(): React.Node {
     const filter = ({example, filterRegex}) =>
-      filterRegex.test(example.module.title) && !Platform.isTV;
+      filterRegex.test(example.module.title) &&
+      (!Platform.isTV || example.supportsTVOS);
 
     const sections = [
       {

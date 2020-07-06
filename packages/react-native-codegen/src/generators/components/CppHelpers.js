@@ -78,13 +78,13 @@ function getImports(properties: $ReadOnlyArray<PropTypeShape>): Set<string> {
   properties.forEach(prop => {
     const typeAnnotation = prop.typeAnnotation;
 
-    if (typeAnnotation.type === 'ReservedPropTypeAnnotation') {
+    if (typeAnnotation.type === 'NativePrimitiveTypeAnnotation') {
       addImportsForNativeName(typeAnnotation.name);
     }
 
     if (
       typeAnnotation.type === 'ArrayTypeAnnotation' &&
-      typeAnnotation.elementType.type === 'ReservedPropTypeAnnotation'
+      typeAnnotation.elementType.type === 'NativePrimitiveTypeAnnotation'
     ) {
       addImportsForNativeName(typeAnnotation.elementType.name);
     }
@@ -96,11 +96,6 @@ function getImports(properties: $ReadOnlyArray<PropTypeShape>): Set<string> {
   });
 
   return imports;
-}
-
-function generateEventStructName(parts: $ReadOnlyArray<string> = []): string {
-  const additional = parts.map(toSafeCppString).join('');
-  return `${additional}`;
 }
 
 function generateStructName(
@@ -151,7 +146,7 @@ function convertDefaultTypeToString(
       return parseInt(defaultFloatVal, 10) === defaultFloatVal
         ? defaultFloatVal.toFixed(1)
         : String(typeAnnotation.default);
-    case 'ReservedPropTypeAnnotation':
+    case 'NativePrimitiveTypeAnnotation':
       switch (typeAnnotation.name) {
         case 'ColorPrimitive':
           return '';
@@ -163,9 +158,7 @@ function convertDefaultTypeToString(
           return '';
         default:
           (typeAnnotation.name: empty);
-          throw new Error(
-            `Unsupported type annotation: ${typeAnnotation.name}`,
-          );
+          throw new Error('Received unknown NativePrimitiveTypeAnnotation');
       }
     case 'ArrayTypeAnnotation': {
       const elementType = typeAnnotation.elementType;
@@ -200,7 +193,7 @@ function convertDefaultTypeToString(
       )}`;
     default:
       (typeAnnotation: empty);
-      throw new Error(`Unsupported type annotation: ${typeAnnotation.type}`);
+      throw new Error('Received invalid typeAnnotation');
   }
 }
 
@@ -213,5 +206,4 @@ module.exports = {
   toSafeCppString,
   toIntEnumValueName,
   generateStructName,
-  generateEventStructName,
 };

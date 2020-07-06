@@ -16,11 +16,11 @@ void *TextLayoutManager::getNativeTextLayoutManager() const {
   return self_;
 }
 
-TextMeasurement TextLayoutManager::measure(
-    AttributedStringBox attributedStringBox,
+Size TextLayoutManager::measure(
+    AttributedString attributedString,
     ParagraphAttributes paragraphAttributes,
     LayoutConstraints layoutConstraints) const {
-  return TextMeasurement{{0, 0}, {}};
+  return Size{0, 0};
 }
 
 } // namespace react

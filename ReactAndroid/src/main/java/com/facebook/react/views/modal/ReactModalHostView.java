@@ -17,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStructure;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
@@ -348,26 +347,24 @@ public class ReactModalHostView extends ViewGroup implements LifecycleEventListe
     Assertions.assertNotNull(mDialog, "mDialog must exist when we call updateProperties");
 
     Activity currentActivity = getCurrentActivity();
-
-    Window window = mDialog.getWindow();
-    if (currentActivity == null || currentActivity.isFinishing() || !window.isActive()) {
-      // If the activity has disappeared, then we shouldn't update the window associated to the
-      // Dialog.
-      return;
-    }
-    int activityWindowFlags = currentActivity.getWindow().getAttributes().flags;
-    if ((activityWindowFlags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0) {
-      window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    } else {
-      window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    if (currentActivity != null) {
+      int activityWindowFlags = currentActivity.getWindow().getAttributes().flags;
+      if ((activityWindowFlags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0) {
+        mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      } else {
+        mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      }
     }
 
     if (mTransparent) {
-      window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+      mDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     } else {
-      window.setDimAmount(0.5f);
-      window.setFlags(
-          WindowManager.LayoutParams.FLAG_DIM_BEHIND, WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+      mDialog.getWindow().setDimAmount(0.5f);
+      mDialog
+          .getWindow()
+          .setFlags(
+              WindowManager.LayoutParams.FLAG_DIM_BEHIND,
+              WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
   }
 
@@ -417,14 +414,9 @@ public class ReactModalHostView extends ViewGroup implements LifecycleEventListe
               new GuardedRunnable(reactContext) {
                 @Override
                 public void runGuarded() {
-                  UIManagerModule uiManager =
-                      (getReactContext()).getNativeModule(UIManagerModule.class);
-
-                  if (uiManager == null) {
-                    return;
-                  }
-
-                  uiManager.updateNodeSize(viewTag, viewWidth, viewHeight);
+                  (getReactContext())
+                      .getNativeModule(UIManagerModule.class)
+                      .updateNodeSize(viewTag, viewWidth, viewHeight);
                 }
               });
         }

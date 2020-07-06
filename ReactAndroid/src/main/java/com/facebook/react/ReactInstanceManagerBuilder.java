@@ -13,6 +13,7 @@ import static com.facebook.react.modules.systeminfo.AndroidInfoHelpers.getFriend
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+
 import androidx.annotation.Nullable;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.infer.annotation.Assertions;
@@ -118,9 +119,9 @@ public class ReactInstanceManagerBuilder {
   }
 
   /**
-   * Path to your app's main module on Metro. This is used when reloading JS during development. All
-   * paths are relative to the root folder the packager is serving files from. Examples: {@code
-   * "index.android"} or {@code "subdirectory/index.android"}
+   * Path to your app's main module on the packager server. This is used when reloading JS during
+   * development. All paths are relative to the root folder the packager is serving files from.
+   * Examples: {@code "index.android"} or {@code "subdirectory/index.android"}
    */
   public ReactInstanceManagerBuilder setJSMainModulePath(String jsMainModulePath) {
     mJSMainModulePath = jsMainModulePath;
@@ -289,8 +290,7 @@ public class ReactInstanceManagerBuilder {
         mCustomPackagerCommandHandlers);
   }
 
-  private JavaScriptExecutorFactory getDefaultJSExecutorFactory(
-      String appName, String deviceName, Context applicationContext) {
+  private JavaScriptExecutorFactory getDefaultJSExecutorFactory(String appName, String deviceName, Context applicationContext) {
     try {
       // If JSC is included, use it as normal
       initializeSoLoaderIfNecessary(applicationContext);

@@ -54,11 +54,11 @@ type TBackHandler = {|
   +exitApp: () => void,
   +addEventListener: (
     eventName: BackPressEventName,
-    handler: () => ?boolean,
+    handler: Function,
   ) => {remove: () => void, ...},
   +removeEventListener: (
     eventName: BackPressEventName,
-    handler: () => ?boolean,
+    handler: Function,
   ) => void,
 |};
 
@@ -93,7 +93,7 @@ if (Platform.isTV) {
 
     addEventListener: function(
       eventName: BackPressEventName,
-      handler: () => ?boolean,
+      handler: Function,
     ): {remove: () => void, ...} {
       _backPressSubscriptions.add(handler);
       return {
@@ -103,7 +103,7 @@ if (Platform.isTV) {
 
     removeEventListener: function(
       eventName: BackPressEventName,
-      handler: () => ?boolean,
+      handler: Function,
     ): void {
       _backPressSubscriptions.delete(handler);
     },

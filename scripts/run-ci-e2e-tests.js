@@ -13,6 +13,7 @@
  * This script tests that React Native end to end installation/bootstrap works for different platforms
  * Available arguments:
  * --ios - 'react-native init' and check iOS app doesn't redbox
+ * --tvos - 'react-native init' and check tvOS app doesn't redbox
  * --android - 'react-native init' and check Android app doesn't redbox
  * --js - 'react-native init' and only check the packager returns a bundle
  * --skip-cli-install - to skip react-native-cli global installation (for local debugging)
@@ -88,15 +89,9 @@ try {
   cd(REACT_NATIVE_APP_DIR);
 
   const METRO_CONFIG = path.join(ROOT, 'metro.config.js');
-  const RN_GET_POLYFILLS = path.join(ROOT, 'rn-get-polyfills.js');
-  const RN_POLYFILLS_PATH = 'Libraries/polyfills/';
-  exec(`mkdir -p ${RN_POLYFILLS_PATH}`);
-
+  const RN_POLYFILLS = path.join(ROOT, 'rn-get-polyfills.js');
   cp(METRO_CONFIG, '.');
-  cp(RN_GET_POLYFILLS, '.');
-  exec(
-    `rsync -a ${ROOT}/${RN_POLYFILLS_PATH} ${REACT_NATIVE_APP_DIR}/${RN_POLYFILLS_PATH}`,
-  );
+  cp(RN_POLYFILLS, '.');
   mv('_flowconfig', '.flowconfig');
   mv('_watchmanconfig', '.watchmanconfig');
 
@@ -166,7 +161,7 @@ try {
       throw Error(exitCode);
     }
 
-    describe(`Start Metro, ${SERVER_PID}`);
+    describe(`Start packager server, ${SERVER_PID}`);
     // shelljs exec('', {async: true}) does not emit stdout events, so we rely on good old spawn
     const packagerProcess = spawn('yarn', ['start', '--max-workers 1'], {
       env: process.env,
@@ -191,43 +186,53 @@ try {
     }
   }
 
-  if (argv.ios) {
+  if (argv.ios || argv.tvos) {
+    var iosTestType = argv.tvos ? 'tvOS' : 'iOS';
     cd('ios');
     // shelljs exec('', {async: true}) does not emit stdout events, so we rely on good old spawn
     const packagerEnv = Object.create(process.env);
     packagerEnv.REACT_NATIVE_MAX_WORKERS = 1;
-    describe('Start Metro');
+    describe('Start packager server');
     const packagerProcess = spawn('yarn', ['start'], {
       stdio: 'inherit',
       env: packagerEnv,
     });
     SERVER_PID = packagerProcess.pid;
     exec('sleep 15s');
-    // prepare cache to reduce chances of possible red screen "Can't find variable __fbBatchedBridge..."
+    // prepare cache to reduce chances of possible red screen "Can't fibd variable __fbBatchedBridge..."
     exec(
       'response=$(curl --write-out %{http_code} --silent --output /dev/null localhost:8081/index.bundle?platform=ios&dev=true)',
     );
-    echo(`Metro is running, ${SERVER_PID}`);
+    echo(`Packager server up and running, ${SERVER_PID}`);
 
     describe('Install CocoaPod dependencies');
     exec('pod install');
 
-    describe('Test: iOS end-to-end test');
+    describe('Test: ' + iosTestType + ' end-to-end test');
     if (
-      // TODO: Get target OS and simulator from .tests.env
       tryExecNTimes(
         () => {
+          let destination = 'platform=iOS Simulator,name=iPhone 6s,OS=12.4';
+          let sdk = 'iphonesimulator';
+          let scheme = 'HelloWorld';
+
+          if (argv.tvos) {
+            destination = 'platform=tvOS Simulator,name=Apple TV,OS=12.4';
+            sdk = 'appletvsimulator';
+            scheme = 'HelloWorld-tvOS';
+          }
+
           return exec(
             [
               'xcodebuild',
               '-workspace',
               '"HelloWorld.xcworkspace"',
               '-destination',
-              '"platform=iOS Simulator,name=iPhone 8,OS=13.3"',
+              `"${destination}"`,
               '-scheme',
-              '"HelloWorld"',
+              `"${scheme}"`,
               '-sdk',
-              'iphonesimulator',
+              sdk,
               '-UseModernBuildSystem=NO',
               'test',
             ].join(' ') +
@@ -237,7 +242,7 @@ try {
                 '--report',
                 'junit',
                 '--output',
-                '"~/react-native/reports/junit/iOS-e2e/results.xml"',
+                `"~/reports/junit/${iosTestType}-e2e/results.xml"`,
               ].join(' ') +
               ' && exit ${PIPESTATUS[0]}',
           ).code;
@@ -246,7 +251,7 @@ try {
         () => exec('sleep 10s'),
       )
     ) {
-      echo('Failed to run iOS end-to-end tests');
+      echo('Failed to run ' + iosTestType + ' end-to-end tests');
       echo('Most likely the code is broken');
       exitCode = 1;
       throw Error(exitCode);
@@ -259,7 +264,7 @@ try {
     describe('Test: Verify packager can generate an Android bundle');
     if (
       exec(
-        'yarn react-native bundle --verbose --entry-file index.js --platform android --dev true --bundle-output android-bundle.js --max-workers 1',
+        'yarn react-native bundle --entry-file index.js --platform android --dev true --bundle-output android-bundle.js --max-workers 1',
       ).code
     ) {
       echo('Could not build Android bundle');

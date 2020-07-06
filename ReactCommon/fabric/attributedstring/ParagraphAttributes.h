@@ -50,12 +50,6 @@ class ParagraphAttributes : public DebugStringConvertible {
   bool adjustsFontSizeToFit{};
 
   /*
-   * (Android only) Leaves enough room for ascenders and descenders instead of
-   * using the font ascent and descent strictly.
-   */
-  bool includeFontPadding{true};
-
-  /*
    * In case of font size adjustment enabled, defines minimum and maximum
    * font sizes.
    */
@@ -88,8 +82,7 @@ struct hash<facebook::react::ParagraphAttributes> {
         attributes.textBreakStrategy,
         attributes.adjustsFontSizeToFit,
         attributes.minimumFontSize,
-        attributes.maximumFontSize,
-        attributes.includeFontPadding);
+        attributes.maximumFontSize);
   }
 };
 } // namespace std

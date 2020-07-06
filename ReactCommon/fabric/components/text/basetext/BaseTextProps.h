@@ -26,7 +26,7 @@ class BaseTextProps {
 
 #pragma mark - Props
 
-  TextAttributes textAttributes{};
+  const TextAttributes textAttributes{};
 
 #pragma mark - DebugStringConvertible (partially)
 

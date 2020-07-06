@@ -16,20 +16,20 @@ import android.media.MediaMetadataRetriever;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.text.TextUtils;
 import androidx.annotation.Nullable;
 import com.facebook.common.logging.FLog;
-import com.facebook.fbreact.specs.NativeCameraRollManagerSpec;
 import com.facebook.react.bridge.GuardedAsyncTask;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
@@ -48,7 +48,6 @@ import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // TODO #6015104: rename to something less iOSish
@@ -57,7 +56,7 @@ import java.util.List;
  * {@link MediaStore.Images}).
  */
 @ReactModule(name = CameraRollManager.NAME)
-public class CameraRollManager extends NativeCameraRollManagerSpec {
+public class CameraRollManager extends ReactContextBaseJavaModule {
 
   public static final String NAME = "CameraRollManager";
 
@@ -70,32 +69,21 @@ public class CameraRollManager extends NativeCameraRollManagerSpec {
   private static final String ASSET_TYPE_VIDEOS = "Videos";
   private static final String ASSET_TYPE_ALL = "All";
 
+  private static final String[] PROJECTION = {
+    Images.Media._ID,
+    Images.Media.MIME_TYPE,
+    Images.Media.BUCKET_DISPLAY_NAME,
+    Images.Media.DATE_TAKEN,
+    MediaStore.MediaColumns.WIDTH,
+    MediaStore.MediaColumns.HEIGHT,
+    Images.Media.LONGITUDE,
+    Images.Media.LATITUDE,
+    MediaStore.MediaColumns.DATA
+  };
+
   private static final String SELECTION_BUCKET = Images.Media.BUCKET_DISPLAY_NAME + " = ?";
   private static final String SELECTION_DATE_TAKEN = Images.Media.DATE_TAKEN + " < ?";
   private static final String SELECTION_MEDIA_SIZE = Images.Media.SIZE + " < ?";
-
-  private static final int IMAGES_MEDIA_LATITUDE_LONGITUDE_DEPRECATED_API_LEVEL = 29;
-  private static final String[] PROJECTION_LIST;
-
-  static {
-    ArrayList<String> projection_list =
-        new ArrayList<>(
-            Arrays.asList(
-                Images.Media._ID,
-                Images.Media.MIME_TYPE,
-                Images.Media.BUCKET_DISPLAY_NAME,
-                Images.Media.DATE_TAKEN,
-                MediaStore.MediaColumns.WIDTH,
-                MediaStore.MediaColumns.HEIGHT,
-                MediaStore.MediaColumns.DATA));
-    if (Build.VERSION.SDK_INT < IMAGES_MEDIA_LATITUDE_LONGITUDE_DEPRECATED_API_LEVEL) {
-      projection_list.add(Images.Media.LATITUDE);
-      projection_list.add(Images.Media.LONGITUDE);
-      PROJECTION_LIST = projection_list.toArray(new String[0]);
-    } else {
-      PROJECTION_LIST = projection_list.toArray(new String[0]);
-    }
-  }
 
   public CameraRollManager(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -114,7 +102,7 @@ public class CameraRollManager extends NativeCameraRollManagerSpec {
    * @param uri the file://, http:// or https:// URI of the image to save
    * @param promise to be resolved or rejected
    */
-  @Override
+  @ReactMethod
   public void saveToCameraRoll(String uri, String type, Promise promise) {
     new SaveToCameraRoll(getReactApplicationContext(), Uri.parse(uri), promise)
         .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -235,7 +223,7 @@ public class CameraRollManager extends NativeCameraRollManagerSpec {
    * @param promise the Promise to be resolved when the photos are loaded; for a format of the
    *     parameters passed to this callback, see {@code getPhotosReturnChecker} in CameraRoll.js
    */
-  @Override
+  @ReactMethod
   public void getPhotos(final ReadableMap params, final Promise promise) {
     int first = params.getInt("first");
     String after = params.hasKey("after") ? params.getString("after") : null;
@@ -364,7 +352,7 @@ public class CameraRollManager extends NativeCameraRollManagerSpec {
         Cursor media =
             resolver.query(
                 MediaStore.Files.getContentUri("external"),
-                PROJECTION_LIST,
+                PROJECTION,
                 selection.toString(),
                 selectionArgs.toArray(new String[selectionArgs.size()]),
                 Images.Media.DATE_TAKEN
@@ -426,9 +414,7 @@ public class CameraRollManager extends NativeCameraRollManagerSpec {
               resolver, media, node, idIndex, widthIndex, heightIndex, dataIndex, mimeTypeIndex);
       if (imageInfoSuccess) {
         putBasicNodeInfo(media, node, mimeTypeIndex, groupNameIndex, dateTakenIndex);
-        if (Build.VERSION.SDK_INT < IMAGES_MEDIA_LATITUDE_LONGITUDE_DEPRECATED_API_LEVEL) {
-          putLocationInfo(media, node, longitudeIndex, latitudeIndex);
-        }
+        putLocationInfo(media, node, longitudeIndex, latitudeIndex);
 
         edge.putMap("node", node);
         edges.pushMap(edge);
@@ -536,10 +522,5 @@ public class CameraRollManager extends NativeCameraRollManagerSpec {
       location.putDouble("latitude", latitude);
       node.putMap("location", location);
     }
-  }
-
-  @Override
-  public void deletePhotos(ReadableArray assets, Promise promise) {
-    // iOS only
   }
 }

@@ -9,7 +9,6 @@ package com.facebook.react.uimanager;
 
 import android.view.View;
 import androidx.annotation.Nullable;
-import com.facebook.react.bridge.ColorPropConverter;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.yoga.YogaConstants;
@@ -48,8 +47,7 @@ public abstract class BaseViewManagerDelegate<T extends View, U extends BaseView
         mViewManager.setViewState(view, (ReadableMap) value);
         break;
       case ViewProps.BACKGROUND_COLOR:
-        mViewManager.setBackgroundColor(
-            view, value == null ? 0 : ColorPropConverter.getColor(value, view.getContext()));
+        mViewManager.setBackgroundColor(view, value == null ? 0 : ((Double) value).intValue());
         break;
       case ViewProps.BORDER_RADIUS:
         mViewManager.setBorderRadius(
@@ -113,7 +111,4 @@ public abstract class BaseViewManagerDelegate<T extends View, U extends BaseView
         break;
     }
   }
-
-  @Override
-  public void receiveCommand(T view, String commandName, ReadableArray args) {}
 }

@@ -43,10 +43,8 @@
 
 - (void)invalidate
 {
-  if ([self.superview respondsToSelector:@selector(invalidate)]) {
-    id<ARTContainer> container = (id<ARTContainer>)self.superview;
-    [container invalidate];
-  }
+  id<ARTContainer> container = (id<ARTContainer>)self.superview;
+  [container invalidate];
 }
 
 - (void)renderTo:(CGContextRef)context

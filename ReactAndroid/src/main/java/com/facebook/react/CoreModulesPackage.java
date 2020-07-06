@@ -21,7 +21,6 @@ import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.module.annotations.ReactModuleList;
 import com.facebook.react.module.model.ReactModuleInfo;
 import com.facebook.react.module.model.ReactModuleInfoProvider;
-import com.facebook.react.modules.bundleloader.NativeDevSplitBundleLoaderModule;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.modules.core.ExceptionsManagerModule;
@@ -31,7 +30,6 @@ import com.facebook.react.modules.debug.DevSettingsModule;
 import com.facebook.react.modules.debug.SourceCodeModule;
 import com.facebook.react.modules.deviceinfo.DeviceInfoModule;
 import com.facebook.react.modules.systeminfo.AndroidInfoModule;
-import com.facebook.react.turbomodule.core.interfaces.TurboModule;
 import com.facebook.react.uimanager.UIImplementationProvider;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.ViewManager;
@@ -57,16 +55,15 @@ import java.util.Map;
       SourceCodeModule.class,
       TimingModule.class,
       UIManagerModule.class,
-      NativeDevSplitBundleLoaderModule.class,
     })
-public class CoreModulesPackage extends TurboReactPackage implements ReactPackageLogger {
+/* package */ class CoreModulesPackage extends TurboReactPackage implements ReactPackageLogger {
 
   private final ReactInstanceManager mReactInstanceManager;
   private final DefaultHardwareBackBtnHandler mHardwareBackBtnHandler;
   private final boolean mLazyViewManagersEnabled;
   private final int mMinTimeLeftInFrameForNonBatchedOperationMs;
 
-  public CoreModulesPackage(
+  CoreModulesPackage(
       ReactInstanceManager reactInstanceManager,
       DefaultHardwareBackBtnHandler hardwareBackBtnHandler,
       @Nullable UIImplementationProvider uiImplementationProvider,
@@ -103,8 +100,7 @@ public class CoreModulesPackage extends TurboReactPackage implements ReactPackag
             HeadlessJsTaskSupportModule.class,
             SourceCodeModule.class,
             TimingModule.class,
-            UIManagerModule.class,
-            NativeDevSplitBundleLoaderModule.class,
+            UIManagerModule.class
           };
 
       final Map<String, ReactModuleInfo> reactModuleInfoMap = new HashMap<>();
@@ -120,7 +116,7 @@ public class CoreModulesPackage extends TurboReactPackage implements ReactPackag
                 reactModule.needsEagerInit(),
                 reactModule.hasConstants(),
                 reactModule.isCxxModule(),
-                TurboModule.class.isAssignableFrom(moduleClass)));
+                false));
       }
 
       return new ReactModuleInfoProvider() {
@@ -161,9 +157,6 @@ public class CoreModulesPackage extends TurboReactPackage implements ReactPackag
         return createUIManager(reactContext);
       case DeviceInfoModule.NAME:
         return new DeviceInfoModule(reactContext);
-      case NativeDevSplitBundleLoaderModule.NAME:
-        return new NativeDevSplitBundleLoaderModule(
-            reactContext, mReactInstanceManager.getDevSupportManager());
       default:
         throw new IllegalArgumentException(
             "In CoreModulesPackage, could not find Native module for " + name);

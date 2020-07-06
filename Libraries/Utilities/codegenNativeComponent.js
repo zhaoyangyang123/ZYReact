@@ -21,7 +21,7 @@ type Options = $ReadOnly<{|
   interfaceOnly?: boolean,
   paperComponentName?: string,
   paperComponentNameDeprecated?: string,
-  excludedPlatforms?: $ReadOnlyArray<'iOS' | 'android'>,
+  excludedPlatform?: 'iOS' | 'android',
 |}>;
 
 export type NativeComponentType<T> = HostComponent<T>;

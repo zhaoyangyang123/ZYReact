@@ -16,7 +16,7 @@ const ReactNative = require('react-native');
 const {View} = ReactNative;
 
 const {TestModule} = ReactNative.NativeModules;
-import {type EventSubscription} from 'react-native/Libraries/vendor/emitter/EventEmitter';
+import type EmitterSubscription from 'react-native/Libraries/vendor/emitter/EmitterSubscription';
 
 const reactViewWidth = 111;
 const reactViewHeight = 222;
@@ -31,7 +31,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 class SizeFlexibilityUpdateTest extends React.Component<Props> {
-  _subscription: ?EventSubscription = null;
+  _subscription: ?EmitterSubscription = null;
 
   UNSAFE_componentWillMount() {
     this._subscription = RCTNativeAppEventEmitter.addListener(

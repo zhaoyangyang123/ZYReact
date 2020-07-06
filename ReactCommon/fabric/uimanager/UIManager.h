@@ -11,14 +11,12 @@
 #include <folly/dynamic.h>
 #include <jsi/jsi.h>
 
-#include <react/componentregistry/ComponentDescriptorRegistry.h>
-#include <react/core/RawValue.h>
 #include <react/core/ShadowNode.h>
 #include <react/core/StateData.h>
 #include <react/mounting/ShadowTree.h>
 #include <react/mounting/ShadowTreeDelegate.h>
 #include <react/mounting/ShadowTreeRegistry.h>
-#include <react/uimanager/UIManagerAnimationDelegate.h>
+#include <react/uimanager/ComponentDescriptorRegistry.h>
 #include <react/uimanager/UIManagerDelegate.h>
 
 namespace facebook {
@@ -41,15 +39,6 @@ class UIManager final : public ShadowTreeDelegate {
   void setDelegate(UIManagerDelegate *delegate);
   UIManagerDelegate *getDelegate();
 
-  /**
-   * Sets and gets the UIManager's Animation APIs delegate.
-   * The delegate is stored as a raw pointer, so the owner must null
-   * the pointer before being destroyed.
-   */
-  void setAnimationDelegate(UIManagerAnimationDelegate *delegate);
-
-  void animationTick();
-
   /*
    * Provides access to a UIManagerBindging.
    * The `callback` methods will not be called if the internal pointer to
@@ -70,21 +59,21 @@ class UIManager final : public ShadowTreeDelegate {
   friend class UIManagerBinding;
   friend class Scheduler;
 
-  ShadowNode::Shared createNode(
+  SharedShadowNode createNode(
       Tag tag,
       std::string const &componentName,
       SurfaceId surfaceId,
       const RawProps &props,
       SharedEventTarget eventTarget) const;
 
-  ShadowNode::Shared cloneNode(
-      const ShadowNode::Shared &shadowNode,
+  SharedShadowNode cloneNode(
+      const SharedShadowNode &shadowNode,
       const SharedShadowNodeSharedList &children = nullptr,
       const RawProps *rawProps = nullptr) const;
 
   void appendChild(
-      const ShadowNode::Shared &parentShadowNode,
-      const ShadowNode::Shared &childShadowNode) const;
+      const SharedShadowNode &parentShadowNode,
+      const SharedShadowNode &childShadowNode) const;
 
   void completeSurface(
       SurfaceId surfaceId,
@@ -94,17 +83,10 @@ class UIManager final : public ShadowTreeDelegate {
       const;
 
   void setJSResponder(
-      const ShadowNode::Shared &shadowNode,
+      const SharedShadowNode &shadowNode,
       const bool blockNativeResponder) const;
 
   void clearJSResponder() const;
-
-  ShadowNode::Shared findNodeAtPoint(
-      ShadowNode::Shared const &shadowNode,
-      Point point) const;
-
-  ShadowNode::Shared getNewestCloneOfShadowNode(
-      ShadowNode const &shadowNode) const;
 
   /*
    * Returns layout metrics of given `shadowNode` relative to
@@ -112,35 +94,34 @@ class UIManager final : public ShadowTreeDelegate {
    * `ancestorShadowNode` is nullptr).
    */
   LayoutMetrics getRelativeLayoutMetrics(
-      ShadowNode const &shadowNode,
-      ShadowNode const *ancestorShadowNode,
-      LayoutableShadowNode::LayoutInspectingPolicy policy) const;
+      const ShadowNode &shadowNode,
+      const ShadowNode *ancestorShadowNode) const;
 
   /*
    * Creates a new shadow node with given state data, clones what's necessary
    * and performs a commit.
    */
-  void updateState(StateUpdate const &stateUpdate) const;
+  void updateState(
+      ShadowNode const &shadowNode,
+      StateData::Shared const &rawStateData) const;
 
   void dispatchCommand(
-      const ShadowNode::Shared &shadowNode,
+      const SharedShadowNode &shadowNode,
       std::string const &commandName,
       folly::dynamic const args) const;
 
-  /**
-   * Configure a LayoutAnimation to happen on the next commit.
-   * This API configures a global LayoutAnimation starting from the root node.
+  /*
+   * Iterates over all shadow nodes which are parts of all registered surfaces
+   * and find the one that has given `tag`. Returns `nullptr` if the node wasn't
+   * found. This is a temporary workaround that should not be used in any core
+   * functionality.
    */
-  void configureNextLayoutAnimation(
-      RawValue const &config,
-      SharedEventTarget successCallback,
-      SharedEventTarget errorCallback) const;
+  ShadowNode::Shared findShadowNodeByTag_DEPRECATED(Tag tag) const;
 
   ShadowTreeRegistry const &getShadowTreeRegistry() const;
 
   SharedComponentDescriptorRegistry componentDescriptorRegistry_;
   UIManagerDelegate *delegate_;
-  UIManagerAnimationDelegate *animationDelegate_{nullptr};
   UIManagerBinding *uiManagerBinding_;
   ShadowTreeRegistry shadowTreeRegistry_{};
 };

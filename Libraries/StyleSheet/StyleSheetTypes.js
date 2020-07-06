@@ -12,11 +12,8 @@
 
 const AnimatedNode = require('../Animated/src/nodes/AnimatedNode');
 
-import type {NativeColorValue} from './PlatformColorValueTypes';
-
-export type ____ColorValue_Internal = null | string | NativeColorValue;
-
-export type ColorArrayValue = null | $ReadOnlyArray<____ColorValue_Internal>;
+export type ColorValue = null | string;
+export type ColorArrayValue = null | $ReadOnlyArray<ColorValue>;
 export type PointValue = {|
   x: number,
   y: number,
@@ -467,7 +464,7 @@ type ____LayoutStyle_Internal = $ReadOnly<{|
   /** `direction` specifies the directional flow of the user interface.
    *  The default is `inherit`, except for root node which will have
    *  value based on the current locale.
-   *  See https://yogalayout.com/docs/layout-direction
+   *  See https://facebook.github.io/yoga/docs/rtl/
    *  for more details.
    *  @platform ios
    */
@@ -530,7 +527,7 @@ export type ____ShadowStyle_Internal = $ReadOnly<{|
    * Sets the drop shadow color
    * @platform ios
    */
-  shadowColor?: ____ColorValue_Internal,
+  shadowColor?: ColorValue,
   /**
    * Sets the drop shadow offset
    * @platform ios
@@ -556,14 +553,14 @@ export type ____ViewStyle_Internal = $ReadOnly<{|
   ...$Exact<____ShadowStyle_Internal>,
   ...$Exact<____TransformStyle_Internal>,
   backfaceVisibility?: 'visible' | 'hidden',
-  backgroundColor?: ____ColorValue_Internal,
-  borderColor?: ____ColorValue_Internal,
-  borderBottomColor?: ____ColorValue_Internal,
-  borderEndColor?: ____ColorValue_Internal,
-  borderLeftColor?: ____ColorValue_Internal,
-  borderRightColor?: ____ColorValue_Internal,
-  borderStartColor?: ____ColorValue_Internal,
-  borderTopColor?: ____ColorValue_Internal,
+  backgroundColor?: ColorValue,
+  borderColor?: ColorValue,
+  borderBottomColor?: ColorValue,
+  borderEndColor?: ColorValue,
+  borderLeftColor?: ColorValue,
+  borderRightColor?: ColorValue,
+  borderStartColor?: ColorValue,
+  borderTopColor?: ColorValue,
   borderRadius?: number | AnimatedNode,
   borderBottomEndRadius?: number | AnimatedNode,
   borderBottomLeftRadius?: number | AnimatedNode,
@@ -600,7 +597,7 @@ export type ____FontWeight_Internal =
 
 export type ____TextStyle_Internal = $ReadOnly<{|
   ...$Exact<____ViewStyle_Internal>,
-  color?: ____ColorValue_Internal,
+  color?: ColorValue,
   fontFamily?: string,
   fontSize?: number,
   fontStyle?: 'normal' | 'italic',
@@ -617,7 +614,7 @@ export type ____TextStyle_Internal = $ReadOnly<{|
     height: number,
   |}>,
   textShadowRadius?: number,
-  textShadowColor?: ____ColorValue_Internal,
+  textShadowColor?: ColorValue,
   letterSpacing?: number,
   lineHeight?: number,
   textAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify',
@@ -629,7 +626,7 @@ export type ____TextStyle_Internal = $ReadOnly<{|
     | 'line-through'
     | 'underline line-through',
   textDecorationStyle?: 'solid' | 'double' | 'dotted' | 'dashed',
-  textDecorationColor?: ____ColorValue_Internal,
+  textDecorationColor?: ColorValue,
   textTransform?: 'none' | 'capitalize' | 'uppercase' | 'lowercase',
   writingDirection?: 'auto' | 'ltr' | 'rtl',
 |}>;
@@ -637,14 +634,14 @@ export type ____TextStyle_Internal = $ReadOnly<{|
 export type ____ImageStyle_Internal = $ReadOnly<{|
   ...$Exact<____ViewStyle_Internal>,
   resizeMode?: 'contain' | 'cover' | 'stretch' | 'center' | 'repeat',
-  tintColor?: ____ColorValue_Internal,
+  tintColor?: ColorValue,
   overlayColor?: string,
 |}>;
 
 export type ____DangerouslyImpreciseStyle_Internal = {
   ...$Exact<____TextStyle_Internal>,
   +resizeMode?: 'contain' | 'cover' | 'stretch' | 'center' | 'repeat',
-  +tintColor?: ____ColorValue_Internal,
+  +tintColor?: ColorValue,
   +overlayColor?: string,
   ...
 };

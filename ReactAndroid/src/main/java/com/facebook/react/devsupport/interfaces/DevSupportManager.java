@@ -69,8 +69,6 @@ public interface DevSupportManager extends NativeModuleCallExceptionHandler {
 
   void reloadJSFromServer(final String bundleURL);
 
-  void loadSplitBundleFromServer(String bundlePath, DevSplitBundleCallback callback);
-
   void isPackagerRunning(PackagerStatusCallback callback);
 
   void setHotModuleReplacementEnabled(final boolean isHotModuleReplacementEnabled);
@@ -91,15 +89,4 @@ public interface DevSupportManager extends NativeModuleCallExceptionHandler {
   StackFrame[] getLastErrorStack();
 
   void registerErrorCustomizer(ErrorCustomizer errorCustomizer);
-
-  /**
-   * The PackagerLocationCustomizer allows you to have a dynamic packager location that is
-   * determined right before loading the packager. Your customizer must call |callback|, as loading
-   * will be blocked waiting for it to resolve.
-   */
-  public interface PackagerLocationCustomizer {
-    void run(Runnable callback);
-  }
-
-  void setPackagerLocationCustomizer(PackagerLocationCustomizer packagerLocationCustomizer);
 }

@@ -10,10 +10,8 @@
 #include <memory>
 
 #include <react/attributedstring/AttributedString.h>
-#include <react/attributedstring/AttributedStringBox.h>
 #include <react/attributedstring/ParagraphAttributes.h>
 #include <react/core/LayoutConstraints.h>
-#include <react/textlayoutmanager/TextMeasureCache.h>
 #include <react/utils/ContextContainer.h>
 
 namespace facebook {
@@ -33,10 +31,10 @@ class TextLayoutManager {
   ~TextLayoutManager();
 
   /*
-   * Measures `attributedStringBox` using native text rendering infrastructure.
+   * Measures `attributedString` using native text rendering infrastructure.
    */
-  TextMeasurement measure(
-      AttributedStringBox attributedStringBox,
+  Size measure(
+      AttributedString attributedString,
       ParagraphAttributes paragraphAttributes,
       LayoutConstraints layoutConstraints) const;
 

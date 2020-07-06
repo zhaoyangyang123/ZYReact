@@ -10,7 +10,7 @@
 
 'use strict';
 
-import type {ColorValue} from '../../StyleSheet/StyleSheet';
+import type {ColorValue} from '../../StyleSheet/StyleSheetTypes';
 import type {ViewProps} from '../View/ViewPropTypes';
 import type {Double, WithDefault} from '../../Types/CodegenTypes';
 

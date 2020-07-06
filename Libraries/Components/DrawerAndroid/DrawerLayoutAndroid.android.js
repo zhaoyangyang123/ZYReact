@@ -25,7 +25,8 @@ import AndroidDrawerLayoutNativeComponent, {
 
 const DRAWER_STATES = ['Idle', 'Dragging', 'Settling'];
 
-import type {ColorValue, ViewStyleProp} from '../../StyleSheet/StyleSheet';
+import type {ViewStyleProp} from '../../StyleSheet/StyleSheet';
+import type {ColorValue} from '../../StyleSheet/StyleSheetTypes';
 import type {DirectEventHandler} from '../../Types/CodegenTypes';
 import type {
   MeasureOnSuccessCallback,
@@ -184,7 +185,7 @@ class DrawerLayoutAndroid extends React.Component<Props, State> {
       ...props
     } = this.props;
     const drawStatusBar =
-      Platform.Version >= 21 && this.props.statusBarBackgroundColor != null;
+      Platform.Version >= 21 && this.props.statusBarBackgroundColor;
     const drawerViewWrapper = (
       <View
         style={[

@@ -49,7 +49,7 @@ function getReactDiffProcessValue(typeAnnotation) {
     case 'StringEnumTypeAnnotation':
     case 'Int32EnumTypeAnnotation':
       return j.literal(true);
-    case 'ReservedPropTypeAnnotation':
+    case 'NativePrimitiveTypeAnnotation':
       switch (typeAnnotation.name) {
         case 'ColorPrimitive':
           return j.template.expression`{ process: require('processColor') }`;
@@ -67,7 +67,7 @@ function getReactDiffProcessValue(typeAnnotation) {
           );
       }
     case 'ArrayTypeAnnotation':
-      if (typeAnnotation.elementType.type === 'ReservedPropTypeAnnotation') {
+      if (typeAnnotation.elementType.type === 'NativePrimitiveTypeAnnotation') {
         switch (typeAnnotation.elementType.name) {
           case 'ColorPrimitive':
             return j.template
@@ -78,7 +78,9 @@ function getReactDiffProcessValue(typeAnnotation) {
             return j.literal(true);
           default:
             throw new Error(
-              `Received unknown array native typeAnnotation: "${typeAnnotation.elementType.name}"`,
+              `Received unknown array native typeAnnotation: "${
+                typeAnnotation.elementType.name
+              }"`,
             );
         }
       }

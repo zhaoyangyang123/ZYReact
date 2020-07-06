@@ -92,14 +92,13 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
     {useNativeDriver: true},
   );
 
-  _sectionListRef: ?React.ElementRef<typeof Animated.SectionList> = null;
+  _sectionListRef: React.ElementRef<typeof Animated.SectionList>;
   _captureRef = ref => {
     this._sectionListRef = ref;
   };
 
   _scrollToLocation(sectionIndex: number, itemIndex: number) {
-    this._sectionListRef &&
-      this._sectionListRef.scrollToLocation({sectionIndex, itemIndex});
+    this._sectionListRef.getNode().scrollToLocation({sectionIndex, itemIndex});
   }
 
   render(): React.Node {

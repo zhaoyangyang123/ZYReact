@@ -26,7 +26,7 @@ const base64Icon =
 
 const ImageCapInsetsExample = require('./ImageCapInsetsExample');
 const IMAGE_PREFETCH_URL =
-  'https://www.facebook.com/favicon.ico?r=1&t=' + Date.now();
+  'http://origami.design/public/images/bird-logo.png?r=1&t=' + Date.now();
 const prefetchTask = Image.prefetch(IMAGE_PREFETCH_URL);
 
 type ImageSource = $ReadOnly<{|
@@ -36,7 +36,7 @@ type ImageSource = $ReadOnly<{|
 type NetworkImageCallbackExampleState = {|
   events: Array<string>,
   startLoadPrefetched: boolean,
-  mountTime: number,
+  mountTime: Date,
 |};
 
 type NetworkImageCallbackExampleProps = $ReadOnly<{|
@@ -51,11 +51,11 @@ class NetworkImageCallbackExample extends React.Component<
   state = {
     events: [],
     startLoadPrefetched: false,
-    mountTime: Date.now(),
+    mountTime: new Date(),
   };
 
   UNSAFE_componentWillMount() {
-    this.setState({mountTime: Date.now()});
+    this.setState({mountTime: new Date()});
   }
 
   _loadEventFired = (event: string) => {
@@ -72,50 +72,43 @@ class NetworkImageCallbackExample extends React.Component<
           source={this.props.source}
           style={[styles.base, {overflow: 'visible'}]}
           onLoadStart={() =>
-            this._loadEventFired(`✔ onLoadStart (+${Date.now() - mountTime}ms)`)
+            this._loadEventFired(`✔ onLoadStart (+${new Date() - mountTime}ms)`)
           }
-          onProgress={event => {
-            const {loaded, total} = event.nativeEvent;
-            const percent = Math.round((loaded / total) * 100);
-            this._loadEventFired(
-              `✔ onProgress ${percent}% (+${Date.now() - mountTime}ms)`,
-            );
-          }}
           onLoad={event => {
             if (event.nativeEvent.source) {
-              const url = event.nativeEvent.source.uri;
+              const url = event.nativeEvent.source.url;
               this._loadEventFired(
-                `✔ onLoad (+${Date.now() - mountTime}ms) for URL ${url}`,
+                `✔ onLoad (+${new Date() - mountTime}ms) for URL ${url}`,
               );
             } else {
-              this._loadEventFired(`✔ onLoad (+${Date.now() - mountTime}ms)`);
+              this._loadEventFired(`✔ onLoad (+${new Date() - mountTime}ms)`);
             }
           }}
           onLoadEnd={() => {
-            this._loadEventFired(`✔ onLoadEnd (+${Date.now() - mountTime}ms)`);
+            this._loadEventFired(`✔ onLoadEnd (+${new Date() - mountTime}ms)`);
             this.setState({startLoadPrefetched: true}, () => {
               prefetchTask.then(
                 () => {
                   this._loadEventFired(
-                    `✔ Prefetch OK (+${Date.now() - mountTime}ms)`,
+                    `✔ Prefetch OK (+${new Date() - mountTime}ms)`,
                   );
                   Image.queryCache([IMAGE_PREFETCH_URL]).then(map => {
                     const result = map[IMAGE_PREFETCH_URL];
                     if (result) {
                       this._loadEventFired(
-                        `✔ queryCache "${result}" (+${Date.now() -
+                        `✔ queryCache "${result}" (+${new Date() -
                           mountTime}ms)`,
                       );
                     } else {
                       this._loadEventFired(
-                        `✘ queryCache (+${Date.now() - mountTime}ms)`,
+                        `✘ queryCache (+${new Date() - mountTime}ms)`,
                       );
                     }
                   });
                 },
                 error => {
                   this._loadEventFired(
-                    `✘ Prefetch failed (+${Date.now() - mountTime}ms)`,
+                    `✘ Prefetch failed (+${new Date() - mountTime}ms)`,
                   );
                 },
               );
@@ -128,26 +121,26 @@ class NetworkImageCallbackExample extends React.Component<
             style={[styles.base, {overflow: 'visible'}]}
             onLoadStart={() =>
               this._loadEventFired(
-                `✔ (prefetched) onLoadStart (+${Date.now() - mountTime}ms)`,
+                `✔ (prefetched) onLoadStart (+${new Date() - mountTime}ms)`,
               )
             }
             onLoad={event => {
               // Currently this image source feature is only available on iOS.
               if (event.nativeEvent.source) {
-                const url = event.nativeEvent.source.uri;
+                const url = event.nativeEvent.source.url;
                 this._loadEventFired(
-                  `✔ (prefetched) onLoad (+${Date.now() -
+                  `✔ (prefetched) onLoad (+${new Date() -
                     mountTime}ms) for URL ${url}`,
                 );
               } else {
                 this._loadEventFired(
-                  `✔ (prefetched) onLoad (+${Date.now() - mountTime}ms)`,
+                  `✔ (prefetched) onLoad (+${new Date() - mountTime}ms)`,
                 );
               }
             }}
             onLoadEnd={() =>
               this._loadEventFired(
-                `✔ (prefetched) onLoadEnd (+${Date.now() - mountTime}ms)`,
+                `✔ (prefetched) onLoadEnd (+${new Date() - mountTime}ms)`,
               )
             }
           />
@@ -159,9 +152,9 @@ class NetworkImageCallbackExample extends React.Component<
 }
 
 type NetworkImageExampleState = {|
-  error: ?string,
+  error: boolean,
   loading: boolean,
-  progress: $ReadOnlyArray<number>,
+  progress: number,
 |};
 
 type NetworkImageExampleProps = $ReadOnly<{|
@@ -173,38 +166,38 @@ class NetworkImageExample extends React.Component<
   NetworkImageExampleState,
 > {
   state = {
-    error: null,
+    error: false,
     loading: false,
-    progress: [],
+    progress: 0,
   };
 
   render() {
-    return this.state.error != null ? (
+    const loader = this.state.loading ? (
+      <View style={styles.progress}>
+        <Text>{this.state.progress}%</Text>
+        <ActivityIndicator style={{marginLeft: 5}} />
+      </View>
+    ) : null;
+    return this.state.error ? (
       <Text>{this.state.error}</Text>
     ) : (
-      <>
-        <Image
-          source={this.props.source}
-          style={[styles.base, {overflow: 'visible'}]}
-          onLoadStart={e => this.setState({loading: true})}
-          onError={e =>
-            this.setState({error: e.nativeEvent.error, loading: false})
-          }
-          onProgress={e => {
-            const {loaded, total} = e.nativeEvent;
-            this.setState(prevState => ({
-              progress: [
-                ...prevState.progress,
-                Math.round((100 * loaded) / total),
-              ],
-            }));
-          }}
-          onLoad={() => this.setState({loading: false, error: null})}
-        />
-        <Text>
-          {this.state.progress.map(progress => `${progress}%`).join('\n')}
-        </Text>
-      </>
+      <ImageBackground
+        source={this.props.source}
+        style={[styles.base, {overflow: 'visible'}]}
+        onLoadStart={e => this.setState({loading: true})}
+        onError={e =>
+          this.setState({error: e.nativeEvent.error, loading: false})
+        }
+        onProgress={e =>
+          this.setState({
+            progress: Math.round(
+              (100 * e.nativeEvent.loaded) / e.nativeEvent.total,
+            ),
+          })
+        }
+        onLoad={() => this.setState({loading: false, error: false})}>
+        {loader}
+      </ImageBackground>
     );
   }
 }
@@ -319,17 +312,18 @@ class MultipleSourcesExample extends React.Component<
             style={{flex: 1}}
             source={[
               {
-                uri: 'https://www.facebook.com/favicon.ico',
+                uri: 'https://facebook.github.io/react-native/img/favicon.png',
                 width: 38,
                 height: 38,
               },
               {
-                uri: 'https://www.facebook.com/favicon.ico',
+                uri: 'https://facebook.github.io/react-native/img/favicon.png',
                 width: 76,
                 height: 76,
               },
               {
-                uri: 'https://www.facebook.com/ads/pics/successstories.png',
+                uri:
+                  'https://facebook.github.io/react-native/img/opengraph.png',
                 width: 400,
                 height: 400,
               },
@@ -342,16 +336,22 @@ class MultipleSourcesExample extends React.Component<
 }
 
 const fullImage = {
-  uri: 'https://www.facebook.com/ads/pics/successstories.png',
+  uri: 'https://facebook.github.io/react-native/img/opengraph.png',
 };
 const smallImage = {
-  uri: 'https://www.facebook.com/favicon.ico',
+  uri: 'https://facebook.github.io/react-native/img/favicon.png',
 };
 
 const styles = StyleSheet.create({
   base: {
     width: 38,
     height: 38,
+  },
+  progress: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: 100,
   },
   leftMargin: {
     marginLeft: 10,
@@ -448,7 +448,9 @@ exports.examples = [
       return (
         <NetworkImageCallbackExample
           source={{
-            uri: 'https://www.facebook.com/favicon.ico?r=1&t=' + Date.now(),
+            uri:
+              'http://origami.design/public/images/bird-logo.png?r=1&t=' +
+              Date.now(),
           }}
           prefetchedSource={{uri: IMAGE_PREFETCH_URL}}
         />
@@ -461,11 +463,12 @@ exports.examples = [
       return (
         <NetworkImageExample
           source={{
-            uri: 'https://www.facebook.com/favicon_TYPO.ico',
+            uri: 'https://TYPO_ERROR_facebook.github.io/react/logo-og.png',
           }}
         />
       );
     },
+    platform: 'ios',
   },
   {
     title: 'Image Download Progress',
@@ -473,11 +476,12 @@ exports.examples = [
       return (
         <NetworkImageExample
           source={{
-            uri: 'https://www.facebook.com/favicon.ico?r=1',
+            uri: 'http://origami.design/public/images/bird-logo.png?r=1',
           }}
         />
       );
     },
+    platform: 'ios',
   },
   {
     title: 'defaultSource',
@@ -487,7 +491,7 @@ exports.examples = [
         <Image
           defaultSource={require('../../assets/bunny.png')}
           source={{
-            uri: 'https://origami.design/public/images/bird-logo.png',
+            uri: 'https://facebook.github.io/origami/public/images/birds.jpg',
           }}
           style={styles.base}
         />
@@ -779,9 +783,6 @@ exports.examples = [
                       source={image}
                     />
                   </View>
-                  {/* $FlowFixMe(>=0.115.0 site=react_native_fb) This comment
-                   * suppresses an error found when Flow v0.115 was deployed.
-                   * To see the error, delete this comment and run Flow. */}
                   <View style={styles.leftMargin}>
                     <Text style={[styles.resizeModeText]}>Cover</Text>
                     <Image
@@ -800,9 +801,6 @@ exports.examples = [
                       source={image}
                     />
                   </View>
-                  {/* $FlowFixMe(>=0.115.0 site=react_native_fb) This comment
-                   * suppresses an error found when Flow v0.115 was deployed.
-                   * To see the error, delete this comment and run Flow. */}
                   <View style={styles.leftMargin}>
                     <Text style={[styles.resizeModeText]}>Repeat</Text>
                     <Image
@@ -811,9 +809,6 @@ exports.examples = [
                       source={image}
                     />
                   </View>
-                  {/* $FlowFixMe(>=0.115.0 site=react_native_fb) This comment
-                   * suppresses an error found when Flow v0.115 was deployed.
-                   * To see the error, delete this comment and run Flow. */}
                   <View style={styles.leftMargin}>
                     <Text style={[styles.resizeModeText]}>Center</Text>
                     <Image
@@ -865,9 +860,6 @@ exports.examples = [
   {
     title: 'Image Size',
     render: function(): React.Node {
-      /* $FlowFixMe(>=0.115.0 site=react_native_fb) This comment suppresses an
-       * error found when Flow v0.115 was deployed. To see the error, delete
-       * this comment and run Flow. */
       return <ImageSizeExample source={fullImage} />;
     },
   },

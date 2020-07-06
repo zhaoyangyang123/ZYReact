@@ -47,12 +47,6 @@ function buildCommandSchema(property, types: TypeMap) {
     let returnType;
 
     switch (type) {
-      case 'RootTag':
-        returnType = {
-          type: 'ReservedFunctionValueTypeAnnotation',
-          name: 'RootTag',
-        };
-        break;
       case 'BooleanTypeAnnotation':
         returnType = {
           type: 'BooleanTypeAnnotation',

@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(jsi
         jsi.cpp)
 
-target_include_directories(jsi PUBLIC ..)
+include_directories(..)
 
 
 set(jsi_compile_flags "")

@@ -6,13 +6,13 @@
  */
 
 #include "ParagraphProps.h"
+#include "../../../attributedstring/primitives.h"
 
 #include <react/attributedstring/conversions.h>
-#include <react/attributedstring/primitives.h>
 #include <react/core/propsConversions.h>
 #include <react/debug/debugStringConvertibleUtils.h>
 
-#include <glog/logging.h>
+#include <Glog/logging.h>
 
 namespace facebook {
 namespace react {
@@ -23,19 +23,9 @@ ParagraphProps::ParagraphProps(
     : ViewProps(sourceProps, rawProps),
       BaseTextProps(sourceProps, rawProps),
       paragraphAttributes(
-          convertRawProp(rawProps, sourceProps.paragraphAttributes, {})),
-      isSelectable(convertRawProp(
-          rawProps,
-          "selectable",
-          sourceProps.isSelectable,
-          {})) {
-  /*
-   * These props are applied to `View`, therefore they must not be a part of
-   * base text attributes.
-   */
-  textAttributes.opacity = std::numeric_limits<Float>::quiet_NaN();
-  textAttributes.backgroundColor = {};
-};
+          convertRawProp(rawProps, sourceProps.paragraphAttributes)),
+      isSelectable(
+          convertRawProp(rawProps, "selectable", sourceProps.isSelectable)){};
 
 #pragma mark - DebugStringConvertible
 

@@ -7,7 +7,7 @@
 
 #include "Sealable.h"
 
-#include <cassert>
+#include <stdexcept>
 
 namespace facebook {
 namespace react {
@@ -56,7 +56,9 @@ bool Sealable::getSealed() const {
 }
 
 void Sealable::ensureUnsealed() const {
-  assert(!sealed_ && "Attempt to mutate a sealed object.");
+  if (sealed_) {
+    throw std::runtime_error("Attempt to mutate a sealed object.");
+  }
 }
 
 #endif

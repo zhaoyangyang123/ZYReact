@@ -56,7 +56,9 @@ testClasses.forEach(testClass => {
       // any faster means Circle CI crashes
       exec('sleep 10s');
       return exec(
-        `./scripts/run-instrumentation-tests-via-adb-shell.sh ${argv.package} ${testClass}`,
+        `./scripts/run-instrumentation-tests-via-adb-shell.sh ${
+          argv.package
+        } ${testClass}`,
       ).code;
     }, numberOfRetries)
   ) {

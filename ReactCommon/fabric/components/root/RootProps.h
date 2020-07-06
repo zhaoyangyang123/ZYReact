@@ -27,8 +27,8 @@ class RootProps final : public ViewProps {
 
 #pragma mark - Props
 
-  LayoutConstraints layoutConstraints{};
-  LayoutContext layoutContext{};
+  LayoutConstraints const layoutConstraints{};
+  LayoutContext const layoutContext{};
 };
 
 } // namespace react

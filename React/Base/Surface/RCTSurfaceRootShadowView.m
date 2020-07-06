@@ -46,6 +46,7 @@
   NSHashTable<NSString *> *other = [NSHashTable new];
 
   RCTLayoutContext layoutContext = {};
+  layoutContext.absolutePosition = CGPointZero;
   layoutContext.affectedShadowViews = affectedShadowViews;
   layoutContext.other = other;
 
@@ -64,7 +65,8 @@
 
 - (void)setMinimumSize:(CGSize)minimumSize maximumSize:(CGSize)maximumSize
 {
-  if (CGSizeEqualToSize(minimumSize, _minimumSize) && CGSizeEqualToSize(maximumSize, _maximumSize)) {
+  if (CGSizeEqualToSize(minimumSize, _minimumSize) &&
+      CGSizeEqualToSize(maximumSize, _maximumSize)) {
     return;
   }
 

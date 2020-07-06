@@ -62,13 +62,9 @@ public abstract class ReactPickerManager extends SimpleViewManager<ReactPicker> 
 
   @Override
   protected void addEventEmitters(final ThemedReactContext reactContext, final ReactPicker picker) {
-    UIManagerModule uiManager = reactContext.getNativeModule(UIManagerModule.class);
-
-    if (uiManager == null) {
-      return;
-    }
-
-    picker.setOnSelectListener(new PickerEventEmitter(picker, uiManager.getEventDispatcher()));
+    picker.setOnSelectListener(
+        new PickerEventEmitter(
+            picker, reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher()));
   }
 
   @Override

@@ -55,8 +55,7 @@ const propSetterTemplate = `
 `;
 
 const commandsTemplate = `
-  @Override
-  public void receiveCommand(T view, String commandName, ReadableArray args) {
+  public void receiveCommand(::_INTERFACE_CLASSNAME_::<T> viewManager, T view, String commandName, ReadableArray args) {
     switch (commandName) {
       ::_COMMAND_CASES_::
     }
@@ -83,10 +82,14 @@ function getJavaValueForProp(
           : `"${typeAnnotation.default}"`;
       return `value == null ? ${defaultValueString} : (String) value`;
     case 'Int32TypeAnnotation':
-      return `value == null ? ${typeAnnotation.default} : ((Double) value).intValue()`;
+      return `value == null ? ${
+        typeAnnotation.default
+      } : ((Double) value).intValue()`;
     case 'DoubleTypeAnnotation':
       if (prop.optional) {
-        return `value == null ? ${typeAnnotation.default}f : ((Double) value).doubleValue()`;
+        return `value == null ? ${
+          typeAnnotation.default
+        }f : ((Double) value).doubleValue()`;
       } else {
         return 'value == null ? Double.NaN : ((Double) value).doubleValue()';
       }
@@ -94,14 +97,16 @@ function getJavaValueForProp(
       if (typeAnnotation.default === null) {
         return 'value == null ? null : ((Double) value).floatValue()';
       } else if (prop.optional) {
-        return `value == null ? ${typeAnnotation.default}f : ((Double) value).floatValue()`;
+        return `value == null ? ${
+          typeAnnotation.default
+        }f : ((Double) value).floatValue()`;
       } else {
         return 'value == null ? Float.NaN : ((Double) value).floatValue()';
       }
-    case 'ReservedPropTypeAnnotation':
+    case 'NativePrimitiveTypeAnnotation':
       switch (typeAnnotation.name) {
         case 'ColorPrimitive':
-          return 'ColorPropConverter.getColor(value, view.getContext())';
+          return 'value == null ? null : ((Double) value).intValue()';
         case 'ImageSourcePrimitive':
           return '(ReadableMap) value';
         case 'PointPrimitive':
@@ -110,7 +115,7 @@ function getJavaValueForProp(
           return '(ReadableMap) value';
         default:
           (typeAnnotation.name: empty);
-          throw new Error('Received unknown ReservedPropTypeAnnotation');
+          throw new Error('Received unknown NativePrimitiveTypeAnnotation');
       }
     case 'ArrayTypeAnnotation': {
       return '(ReadableArray) value';
@@ -121,7 +126,9 @@ function getJavaValueForProp(
     case 'StringEnumTypeAnnotation':
       return '(String) value';
     case 'Int32EnumTypeAnnotation':
-      return `value == null ? ${typeAnnotation.default} : ((Double) value).intValue()`;
+      return `value == null ? ${
+        typeAnnotation.default
+      } : ((Double) value).intValue()`;
     default:
       (typeAnnotation: empty);
       throw new Error('Received invalid typeAnnotation');
@@ -154,17 +161,7 @@ function generatePropCasesString(
 }
 
 function getCommandArgJavaType(param, index) {
-  const {typeAnnotation} = param;
-
-  switch (typeAnnotation.type) {
-    case 'ReservedFunctionValueTypeAnnotation':
-      switch (typeAnnotation.name) {
-        case 'RootTag':
-          return `args.getDouble(${index})`;
-        default:
-          (typeAnnotation.name: empty);
-          throw new Error(`Receieved invalid type: ${typeAnnotation.name}`);
-      }
+  switch (param.typeAnnotation.type) {
     case 'BooleanTypeAnnotation':
       return `args.getBoolean(${index})`;
     case 'DoubleTypeAnnotation':
@@ -176,8 +173,8 @@ function getCommandArgJavaType(param, index) {
     case 'StringTypeAnnotation':
       return `args.getString(${index})`;
     default:
-      (typeAnnotation.type: empty);
-      throw new Error(`Receieved invalid type: ${typeAnnotation.type}`);
+      (param.typeAnnotation.type: empty);
+      throw new Error('Receieved invalid typeAnnotation');
   }
 }
 
@@ -199,7 +196,7 @@ function generateCommandCasesString(
   const commandMethods = component.commands
     .map(command => {
       return `case "${command.name}":
-        mViewManager.${toSafeJavaString(
+        viewManager.${toSafeJavaString(
           command.name,
           false,
         )}(${getCommandArguments(command)});
@@ -233,7 +230,7 @@ function getClassExtendString(component): string {
 }
 
 function getDelegateImports(component) {
-  const imports = getImports(component, 'delegate');
+  const imports = getImports(component);
   // The delegate needs ReadableArray for commands always.
   // The interface doesn't always need it
   if (component.commands.length > 0) {
@@ -275,10 +272,7 @@ module.exports = {
       return Object.keys(components)
         .filter(componentName => {
           const component = components[componentName];
-          return !(
-            component.excludedPlatforms &&
-            component.excludedPlatforms.includes('android')
-          );
+          return component.excludedPlatform !== 'android';
         })
         .forEach(componentName => {
           const component = components[componentName];

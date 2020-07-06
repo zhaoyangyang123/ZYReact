@@ -26,7 +26,6 @@
 - (NSString *)getString:(NSString *)arg;
 - (NSArray<id<NSObject>> *)getArray:(NSArray *)arg;
 - (NSDictionary *)getObject:(NSDictionary *)arg;
-- (NSNumber *)getRootTag:(double)arg;
 - (NSDictionary *)getValue:(double)x y:(NSString *)y z:(NSDictionary *)z;
 - (void)getValueWithCallback:(RCTResponseSenderBlock)callback;
 - (void)getValueWithPromise:(BOOL)error resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject;
@@ -43,7 +42,7 @@ namespace react {
  */
 class JSI_EXPORT NativeSampleTurboModuleSpecJSI : public ObjCTurboModule {
  public:
-  NativeSampleTurboModuleSpecJSI(const ObjCTurboModule::InitParams &params);
+  NativeSampleTurboModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker);
 };
 
 } // namespace react

@@ -37,27 +37,6 @@ std::string kindToString(const Value& v, Runtime* rt = nullptr) {
   }
 }
 
-// getPropertyAsFunction() will try to create a JSError.  If the
-// failure is in building a JSError, this will lead to infinite
-// recursion.  This function is used in place of getPropertyAsFunction
-// when building JSError, to avoid that infinite recursion.
-Value callGlobalFunction(Runtime& runtime, const char* name, const Value& arg) {
-  Value v = runtime.global().getProperty(runtime, name);
-  if (!v.isObject()) {
-    throw JSINativeException(
-        std::string("callGlobalFunction: JS global property '") + name +
-        "' is " + kindToString(v, &runtime) + ", expected a Function");
-  }
-  Object o = v.getObject(runtime);
-  if (!o.isFunction(runtime)) {
-    throw JSINativeException(
-        std::string("callGlobalFunction: JS global property '") + name +
-        "' is a non-callable Object, expected a Function");
-  }
-  Function f = std::move(o).getFunction(runtime);
-  return f.call(runtime, arg);
-}
-
 } // namespace
 
 namespace detail {
@@ -99,20 +78,15 @@ Instrumentation& Runtime::instrumentation() {
 
     void collectGarbage() override {}
 
-    void startTrackingHeapObjectStackTraces() override {}
-    void stopTrackingHeapObjectStackTraces() override {}
-
-    void createSnapshotToFile(const std::string&) override {
-      throw JSINativeException(
-          "Default instrumentation cannot create a heap snapshot");
+    bool createSnapshotToFile(const std::string&) override {
+      return false;
     }
 
-    void createSnapshotToStream(std::ostream&) override {
-      throw JSINativeException(
-          "Default instrumentation cannot create a heap snapshot");
+    bool createSnapshotToStream(std::ostream&) override {
+      return false;
     }
 
-    std::string flushAndDisableBridgeTrafficTrace() override {
+    void writeBridgeTrafficTraceToFile(const std::string&) const override {
       std::abort();
     }
 
@@ -168,7 +142,9 @@ Function Object::getPropertyAsFunction(Runtime& runtime, const char* name)
             kindToString(std::move(obj), &runtime) + ", expected a Function");
   };
 
-  return std::move(obj).getFunction(runtime);
+  Runtime::PointerValue* value = obj.ptr_;
+  obj.ptr_ = nullptr;
+  return Function(value);
 }
 
 Array Object::asArray(Runtime& runtime) const& {
@@ -371,11 +347,7 @@ JSError::JSError(Runtime& rt, Value&& value) {
 JSError::JSError(Runtime& rt, std::string msg) : message_(std::move(msg)) {
   try {
     setValue(
-        rt,
-        callGlobalFunction(rt, "Error", String::createFromUtf8(rt, message_)));
-  } catch (const std::exception& ex) {
-    message_ = std::string(ex.what()) + " (while raising " + message_ + ")";
-    setValue(rt, String::createFromUtf8(rt, message_));
+        rt, rt.global().getPropertyAsFunction(rt, "Error").call(rt, message_));
   } catch (...) {
     setValue(rt, Value());
   }
@@ -388,8 +360,6 @@ JSError::JSError(Runtime& rt, std::string msg, std::string stack)
     e.setProperty(rt, "message", String::createFromUtf8(rt, message_));
     e.setProperty(rt, "stack", String::createFromUtf8(rt, stack_));
     setValue(rt, std::move(e));
-  } catch (const std::exception& ex) {
-    setValue(rt, String::createFromUtf8(rt, ex.what()));
   } catch (...) {
     setValue(rt, Value());
   }
@@ -401,63 +371,29 @@ JSError::JSError(std::string what, Runtime& rt, Value&& value)
 }
 
 void JSError::setValue(Runtime& rt, Value&& value) {
-  value_ = std::make_shared<Value>(std::move(value));
+  value_ = std::make_shared<jsi::Value>(std::move(value));
 
   try {
     if ((message_.empty() || stack_.empty()) && value_->isObject()) {
       auto obj = value_->getObject(rt);
 
       if (message_.empty()) {
-        try {
-          Value message = obj.getProperty(rt, "message");
-          if (!message.isUndefined() && !message.isString()) {
-            message = callGlobalFunction(rt, "String", message);
-          }
-          if (message.isString()) {
-            message_ = message.getString(rt).utf8(rt);
-          } else if (!message.isUndefined()) {
-            message_ = "String(e.message) is a " + kindToString(message, &rt);
-          }
-        } catch (const std::exception& ex) {
-          message_ = std::string("[Exception while creating message string: ") +
-              ex.what() + "]";
+        jsi::Value message = obj.getProperty(rt, "message");
+        if (!message.isUndefined()) {
+          message_ = message.toString(rt).utf8(rt);
         }
       }
 
       if (stack_.empty()) {
-        try {
-          Value stack = obj.getProperty(rt, "stack");
-          if (!stack.isUndefined() && !stack.isString()) {
-            stack = callGlobalFunction(rt, "String", stack);
-          }
-          if (stack.isString()) {
-            stack_ = stack.getString(rt).utf8(rt);
-          } else if (!stack.isUndefined()) {
-            stack_ = "String(e.stack) is a " + kindToString(stack, &rt);
-          }
-        } catch (const std::exception& ex) {
-          message_ = std::string("[Exception while creating stack string: ") +
-              ex.what() + "]";
+        jsi::Value stack = obj.getProperty(rt, "stack");
+        if (!stack.isUndefined()) {
+          stack_ = stack.toString(rt).utf8(rt);
         }
       }
     }
 
     if (message_.empty()) {
-      try {
-        if (value_->isString()) {
-          message_ = value_->getString(rt).utf8(rt);
-        } else {
-          Value message = callGlobalFunction(rt, "String", *value_);
-          if (message.isString()) {
-            message_ = message.getString(rt).utf8(rt);
-          } else {
-            message_ = "String(e) is a " + kindToString(message, &rt);
-          }
-        }
-      } catch (const std::exception& ex) {
-        message_ = std::string("[Exception while creating message string: ") +
-            ex.what() + "]";
-      }
+      message_ = value_->toString(rt).utf8(rt);
     }
 
     if (stack_.empty()) {
@@ -473,12 +409,6 @@ void JSError::setValue(Runtime& rt, Value&& value) {
     what_ = "[Exception caught getting value fields]";
   }
 }
-
-JSIException::~JSIException() {}
-
-JSINativeException::~JSINativeException() {}
-
-JSError::~JSError() {}
 
 } // namespace jsi
 } // namespace facebook

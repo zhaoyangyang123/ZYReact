@@ -40,6 +40,7 @@ module.exports = [
   'measureInWindow',
   'measureLayout',
   'measureLayoutRelativeToParent',
+  'playTouchSound',
   'removeRootView',
   'removeSubviewsFromContainerWithID',
   'replaceExistingNonRootView',

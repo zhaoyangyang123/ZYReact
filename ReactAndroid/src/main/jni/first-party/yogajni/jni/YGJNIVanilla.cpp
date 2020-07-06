@@ -225,16 +225,6 @@ static void jni_YGNodeInsertChildJNI(
       _jlong2YGNodeRef(nativePointer), _jlong2YGNodeRef(childPointer), index);
 }
 
-static void jni_YGNodeSwapChildJNI(
-    JNIEnv* env,
-    jobject obj,
-    jlong nativePointer,
-    jlong childPointer,
-    jint index) {
-  YGNodeSwapChild(
-      _jlong2YGNodeRef(nativePointer), _jlong2YGNodeRef(childPointer), index);
-}
-
 static void jni_YGNodeSetIsReferenceBaselineJNI(
     JNIEnv* env,
     jobject obj,
@@ -388,13 +378,6 @@ static void jni_YGNodeCalculateLayoutJNI(
     if (throwable.get()) {
       env->Throw(throwable.get());
     }
-  } catch (const std::logic_error& ex) {
-    env->ExceptionClear();
-    jclass cl = env->FindClass("Ljava/lang/IllegalStateException;");
-    static const jmethodID methodId = facebook::yoga::vanillajni::getMethodId(
-        env, cl, "<init>", "(Ljava/lang/String;)V");
-    auto throwable = env->NewObject(cl, methodId, env->NewStringUTF(ex.what()));
-    env->Throw(static_cast<jthrowable>(throwable));
   }
 }
 
@@ -771,7 +754,6 @@ static JNINativeMethod methods[] = {
     {"jni_YGNodeFreeJNI", "(J)V", (void*) jni_YGNodeFreeJNI},
     {"jni_YGNodeResetJNI", "(J)V", (void*) jni_YGNodeResetJNI},
     {"jni_YGNodeInsertChildJNI", "(JJI)V", (void*) jni_YGNodeInsertChildJNI},
-    {"jni_YGNodeSwapChildJNI", "(JJI)V", (void*) jni_YGNodeSwapChildJNI},
     {"jni_YGNodeSetIsReferenceBaselineJNI",
      "(JZ)V",
      (void*) jni_YGNodeSetIsReferenceBaselineJNI},

@@ -10,25 +10,25 @@
 
 'use strict';
 
+const React = require('react');
 const Dimensions = require('../Utilities/Dimensions');
 const FrameRateLogger = require('../Interaction/FrameRateLogger');
 const Keyboard = require('./Keyboard/Keyboard');
-const Platform = require('../Utilities/Platform');
-const React = require('react');
 const ReactNative = require('../Renderer/shims/ReactNative');
 const TextInputState = require('./TextInput/TextInputState');
 const UIManager = require('../ReactNative/UIManager');
+const Platform = require('../Utilities/Platform');
+import Commands from './ScrollView/ScrollViewCommands';
 
 const invariant = require('invariant');
 const performanceNow = require('fbjs/lib/performanceNow');
 
-import type {HostComponent} from '../Renderer/shims/ReactNativeTypes';
 import type {PressEvent, ScrollEvent} from '../Types/CoreEventTypes';
-import {type EventSubscription} from '../vendor/emitter/EventEmitter';
-import type {KeyboardEvent} from './Keyboard/Keyboard';
 import typeof ScrollView from './ScrollView/ScrollView';
 import type {Props as ScrollViewProps} from './ScrollView/ScrollView';
-import Commands from './ScrollView/ScrollViewCommands';
+import type {KeyboardEvent} from './Keyboard/Keyboard';
+import type EmitterSubscription from '../vendor/emitter/EmitterSubscription';
+import type {HostComponent} from '../Renderer/shims/ReactNativeTypes';
 
 /**
  * Mixin that can be integrated in order to handle scrolling that plays well
@@ -119,10 +119,10 @@ export type State = {|
 |};
 
 const ScrollResponderMixin = {
-  _subscriptionKeyboardWillShow: (null: ?EventSubscription),
-  _subscriptionKeyboardWillHide: (null: ?EventSubscription),
-  _subscriptionKeyboardDidShow: (null: ?EventSubscription),
-  _subscriptionKeyboardDidHide: (null: ?EventSubscription),
+  _subscriptionKeyboardWillShow: (null: ?EmitterSubscription),
+  _subscriptionKeyboardWillHide: (null: ?EmitterSubscription),
+  _subscriptionKeyboardDidShow: (null: ?EmitterSubscription),
+  _subscriptionKeyboardDidHide: (null: ?EmitterSubscription),
   scrollResponderMixinGetInitialState: function(): State {
     return {
       isTouching: false,
@@ -183,12 +183,12 @@ const ScrollResponderMixin = {
       return false;
     }
 
-    const currentlyFocusedInput = TextInputState.currentlyFocusedInput();
+    const currentlyFocusedTextInput = TextInputState.currentlyFocusedField();
 
     if (
       this.props.keyboardShouldPersistTaps === 'handled' &&
-      currentlyFocusedInput != null &&
-      e.target !== currentlyFocusedInput
+      currentlyFocusedTextInput != null &&
+      ReactNative.findNodeHandle(e.target) !== currentlyFocusedTextInput
     ) {
       return true;
     }
@@ -224,26 +224,17 @@ const ScrollResponderMixin = {
     // and a new touch starts with a non-textinput target (in which case the
     // first tap should be sent to the scroll view and dismiss the keyboard,
     // then the second tap goes to the actual interior view)
-    const currentlyFocusedTextInput = TextInputState.currentlyFocusedInput();
+    const currentlyFocusedTextInput = TextInputState.currentlyFocusedField();
     const {keyboardShouldPersistTaps} = this.props;
     const keyboardNeverPersistTaps =
       !keyboardShouldPersistTaps || keyboardShouldPersistTaps === 'never';
 
-    if (typeof e.target === 'number') {
-      if (__DEV__) {
-        console.error(
-          'Did not expect event target to be a number. Should have been a native component',
-        );
-      }
-
-      return false;
-    }
-
+    const reactTag = ReactNative.findNodeHandle(e.target);
     if (
       keyboardNeverPersistTaps &&
       currentlyFocusedTextInput != null &&
-      e.target != null &&
-      !TextInputState.isTextInput(e.target)
+      reactTag &&
+      !TextInputState.isTextInput(reactTag)
     ) {
       return true;
     }
@@ -309,24 +300,14 @@ const ScrollResponderMixin = {
   scrollResponderHandleResponderRelease: function(e: PressEvent) {
     this.props.onResponderRelease && this.props.onResponderRelease(e);
 
-    if (typeof e.target === 'number') {
-      if (__DEV__) {
-        console.error(
-          'Did not expect event target to be a number. Should have been a native component',
-        );
-      }
-
-      return;
-    }
-
     // By default scroll views will unfocus a textField
     // if another touch occurs outside of it
-    const currentlyFocusedTextInput = TextInputState.currentlyFocusedInput();
+    const currentlyFocusedTextInput = TextInputState.currentlyFocusedField();
     if (
       this.props.keyboardShouldPersistTaps !== true &&
       this.props.keyboardShouldPersistTaps !== 'always' &&
       currentlyFocusedTextInput != null &&
-      e.target !== currentlyFocusedTextInput &&
+      ReactNative.findNodeHandle(e.target) !== currentlyFocusedTextInput &&
       !this.state.observedScrollSinceBecomingResponder &&
       !this.state.becameResponderWhileAnimating
     ) {
@@ -589,7 +570,10 @@ const ScrollResponderMixin = {
    *        down to make it meet the keyboard's top. Default is false.
    */
   scrollResponderScrollNativeHandleToKeyboard: function<T>(
-    nodeHandle: number | React.ElementRef<HostComponent<T>>,
+    nodeHandle:
+      | number
+      | React.ElementRef<HostComponent<T>>
+      | React.ElementRef<Class<ReactNative.NativeComponent<T>>>,
     additionalOffset?: number,
     preventNegativeScrollOffset?: boolean,
   ) {

@@ -21,7 +21,7 @@ const SIMPLE_STRUCT: $ReadOnlyArray<
   |}>,
 > = [
   {
-    name: 'SpecSampleFuncReturnType',
+    name: 'SampleFuncReturnType',
     object: {
       type: 'ObjectTypeAnnotation',
       properties: [
@@ -97,14 +97,6 @@ const SIMPLE_STRUCT: $ReadOnlyArray<
                 },
               },
             ],
-          },
-        },
-        {
-          optional: false,
-          name: 'k',
-          typeAnnotation: {
-            type: 'ReservedFunctionValueTypeAnnotation',
-            name: 'RootTag',
           },
         },
       ],
@@ -122,7 +114,7 @@ const SIMPLE_CONSTANTS: $ReadOnlyArray<
   |}>,
 > = [
   {
-    name: 'SpecGetConstantsReturnType',
+    name: 'GetConstantsReturnType',
     object: {
       type: 'ObjectTypeAnnotation',
       properties: [
@@ -198,14 +190,6 @@ const SIMPLE_CONSTANTS: $ReadOnlyArray<
                 },
               },
             ],
-          },
-        },
-        {
-          optional: false,
-          name: 'k',
-          typeAnnotation: {
-            type: 'ReservedFunctionValueTypeAnnotation',
-            name: 'RootTag',
           },
         },
       ],

@@ -47,6 +47,7 @@ export interface Spec extends TurboModule {
     stack: Array<StackFrame>,
     exceptionId: number,
   ) => void;
+  // TODO(T53311281): This is a noop on iOS now. Implement it.
   +reportException?: (data: ExceptionData) => void;
   +updateExceptionMessage: (
     message: string,

@@ -47,10 +47,6 @@ public class PreAllocateViewMountItem implements MountItem {
     mIsLayoutable = isLayoutable;
   }
 
-  public int getRootTag() {
-    return mRootTag;
-  }
-
   @Override
   public void execute(@NonNull MountingManager mountingManager) {
     if (ENABLE_FABRIC_LOGS) {

@@ -275,7 +275,7 @@ describe('LogBoxData', () => {
     expect(selectedLogIndex()).toBe(-1);
   });
 
-  it('sets the selectedLogIndex to the first fatal error (after symbolication)', () => {
+  it('sets the selectedLogIndex to the last fatal error (after symbolication)', () => {
     addFatalErrors(['A']);
 
     // Order maters for symbolication before timeout.
@@ -291,14 +291,10 @@ describe('LogBoxData', () => {
     flushLogs();
     jest.runAllTimers();
 
-    // This should still be 0 (the first fatal exception)
-    // becuase it is the most likely source of the error.
-    // If there are more exceptions after this, they
-    // are likely caused by this original exception.
-    expect(selectedLogIndex()).toBe(0);
+    expect(selectedLogIndex()).toBe(2);
   });
 
-  it('sets the selectedLogIndex to the first fatal error (hitting timeout limit)', () => {
+  it('sets the selectedLogIndex to the last fatal error (hitting timeout limit)', () => {
     addFatalErrors(['A']);
 
     // Order maters for timeout before symbolication.
@@ -314,11 +310,7 @@ describe('LogBoxData', () => {
     jest.runAllTimers();
     flushLogs();
 
-    // This should still be 0 (the first fatal exception)
-    // becuase it is the most likely source of the error.
-    // If there are more exceptions after this, they
-    // are likely caused by this original exception.
-    expect(selectedLogIndex()).toBe(0);
+    expect(selectedLogIndex()).toBe(2);
   });
 
   it('sets the selectedLogIndex to the last syntax error', () => {

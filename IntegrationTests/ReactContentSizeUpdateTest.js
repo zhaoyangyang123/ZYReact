@@ -17,7 +17,7 @@ const ReactNative = require('react-native');
 const {View} = ReactNative;
 
 const {TestModule} = ReactNative.NativeModules;
-import {type EventSubscription} from 'react-native/Libraries/vendor/emitter/EventEmitter';
+import type EmitterSubscription from 'react-native/Libraries/vendor/emitter/EmitterSubscription';
 
 const reactViewWidth = 101;
 const reactViewHeight = 102;
@@ -33,7 +33,7 @@ type State = {|
 
 class ReactContentSizeUpdateTest extends React.Component<Props, State> {
   _timeoutID: ?TimeoutID = null;
-  _subscription: ?EventSubscription = null;
+  _subscription: ?EmitterSubscription = null;
 
   state: State = {
     height: reactViewHeight,

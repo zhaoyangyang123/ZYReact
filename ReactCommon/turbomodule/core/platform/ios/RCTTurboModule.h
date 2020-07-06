@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#pragma once
-
 #import <memory>
 
 #import <Foundation/Foundation.h>
@@ -34,16 +32,7 @@ class Instance;
  */
 class JSI_EXPORT ObjCTurboModule : public TurboModule {
  public:
-  // TODO(T65603471): Should we unify this with a Fabric abstraction?
-  struct InitParams {
-    std::string moduleName;
-    id<RCTTurboModule> instance;
-    std::shared_ptr<CallInvoker> jsInvoker;
-    std::shared_ptr<CallInvoker> nativeInvoker;
-    bool isSyncModule;
-  };
-
-  ObjCTurboModule(const InitParams &params);
+  ObjCTurboModule(const std::string &name, id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker);
 
   jsi::Value invokeObjCMethod(
       jsi::Runtime &runtime,
@@ -54,42 +43,35 @@ class JSI_EXPORT ObjCTurboModule : public TurboModule {
       size_t count);
 
   id<RCTTurboModule> instance_;
-  std::shared_ptr<CallInvoker> nativeInvoker_;
 
  protected:
   void setMethodArgConversionSelector(NSString *methodName, int argIndex, NSString *fnName);
 
  private:
-  // Does the NativeModule dispatch async methods to the JS thread?
-  const bool isSyncModule_;
-
   /**
    * TODO(ramanpreet):
    * Investigate an optimization that'll let us get rid of this NSMutableDictionary.
    */
   NSMutableDictionary<NSString *, NSMutableArray *> *methodArgConversionSelectors_;
   NSDictionary<NSString *, NSArray<NSString *> *> *methodArgumentTypeNames_;
-
-  bool isMethodSync(TurboModuleMethodValueKind returnType);
-  BOOL hasMethodArgConversionSelector(NSString *methodName, int argIndex);
-  SEL getMethodArgConversionSelector(NSString *methodName, int argIndex);
   NSString *getArgumentTypeName(NSString *methodName, int argIndex);
+
   NSInvocation *getMethodInvocation(
       jsi::Runtime &runtime,
-      TurboModuleMethodValueKind returnType,
-      const char *methodName,
+      TurboModuleMethodValueKind valueKind,
+      const id<RCTTurboModule> module,
+      std::shared_ptr<CallInvoker> jsInvoker,
+      const std::string &methodName,
       SEL selector,
       const jsi::Value *args,
       size_t count,
       NSMutableArray *retainedObjectsForInvocation);
-  jsi::Value performMethodInvocation(
-      jsi::Runtime &runtime,
-      TurboModuleMethodValueKind returnType,
-      const char *methodName,
-      NSInvocation *inv,
-      NSMutableArray *retainedObjectsForInvocation);
 
-  using PromiseInvocationBlock = void (^)(RCTPromiseResolveBlock resolveWrapper, RCTPromiseRejectBlock rejectWrapper);
+  BOOL hasMethodArgConversionSelector(NSString *methodName, int argIndex);
+  SEL getMethodArgConversionSelector(NSString *methodName, int argIndex);
+
+  using PromiseInvocationBlock =
+      void (^)(jsi::Runtime &rt, RCTPromiseResolveBlock resolveWrapper, RCTPromiseRejectBlock rejectWrapper);
   jsi::Value
   createPromise(jsi::Runtime &runtime, std::shared_ptr<react::CallInvoker> jsInvoker, PromiseInvocationBlock invoke);
 };
@@ -110,20 +92,14 @@ class JSI_EXPORT ObjCTurboModule : public TurboModule {
 
 @optional
 // This should be required, after migration is done.
-- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
-    (const facebook::react::ObjCTurboModule::InitParams &)params;
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModuleWithJsInvoker:
+    (std::shared_ptr<facebook::react::CallInvoker>)jsInvoker;
 
 @end
 
-/**
- * These methods are all implemented by RCTCxxBridge, which subclasses RCTBridge. Hence, they must only be used in
- * contexts where the concrete class of an RCTBridge instance is RCTCxxBridge. This happens, for example, when
- * [RCTCxxBridgeDelegate jsExecutorFactoryForBridge:(RCTBridge *)] is invoked by RCTCxxBridge.
- *
- * TODO: Consolidate this extension with the one in RCTSurfacePresenter.
- */
-@interface RCTBridge (RCTTurboModule)
-- (std::shared_ptr<facebook::react::CallInvoker>)jsCallInvoker;
-- (std::shared_ptr<facebook::react::CallInvoker>)decorateNativeCallInvoker:
-    (std::shared_ptr<facebook::react::CallInvoker>)nativeInvoker;
+// TODO: Consolidate this extension with the one in RCTSurfacePresenter.
+@interface RCTBridge ()
+
+- (std::weak_ptr<facebook::react::Instance>)reactInstance;
+
 @end
